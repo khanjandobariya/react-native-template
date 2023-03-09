@@ -1,6 +1,6 @@
-const Screen = {
+const Screens = {
   LoginScreen: 'LoginScreen',
   DashBoardScreen: 'DashBoardScreen'
 }
 
-export default Screen
+export default Screens
