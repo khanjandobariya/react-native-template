@@ -3,6 +3,6 @@ import Images from './Images'
 import Loader from './Loader'
 import Screen from './Screens'
 import Storage from './Storage'
-import Utility from './Utility'
+import * as Utility from './Utility'
 
 export {Const, Images, Loader, Screen, Storage, Utility}

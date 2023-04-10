@@ -1,9 +1,9 @@
 import React, {forwardRef, useImperativeHandle, useState} from 'react'
 import {ActivityIndicator, StyleSheet, View} from 'react-native'
 
-import {scale} from '@/utils/Responsive'
 import useColor from '@/hooks/useColor'
 import {ColorType, Opacity} from '@/theme/Theme'
+import {scale} from '@/utils/Responsive'
 
 const AppLoader = forwardRef((ref: any, props) => {
   const [isLoading, setLoading] = useState(false)

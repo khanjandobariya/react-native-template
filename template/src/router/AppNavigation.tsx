@@ -1,8 +1,8 @@
 import React from 'react'
 import {createStackNavigator} from '@react-navigation/stack'
 
-import {Screen} from '@/utils'
 import * as View from '@/screens'
+import {Screen} from '@/utils'
 
 const Stack = createStackNavigator()
 

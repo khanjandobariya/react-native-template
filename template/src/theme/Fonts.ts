@@ -1,1 +1,1 @@
-export const Fonts = { bold: '', semi_bold: '', regular: '', medium: '' }
+export const Fonts = {bold: '', semi_bold: '', regular: '', medium: ''}
