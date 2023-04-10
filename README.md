@@ -59,5 +59,5 @@ it will also export it from index.js Automatically
 
 ...and voila 🪄 your component/screen is generated in matter of seconds.
 
-example
+example\
 ![Example gif](https://github.com/khanjandobariya/react-native-template/blob/main/shots/plopExample.gif)
