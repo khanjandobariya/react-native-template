@@ -1,0 +1,21 @@
+import React from 'react'
+import {Text} from 'react-native'
+
+import {myStyles} from './{{pascalCase name}}.styles'
+import {AppContainer} from '@/components'
+import {useColor} from '@/hooks'
+
+interface {{pascalCase name}}Props {}
+
+const {{pascalCase name}} = ({}: {{pascalCase name}}Props) => {
+  const colors = useColor()
+  const styles = myStyles(colors)
+
+  return (
+    <AppContainer>
+      <Text>{{pascalCase name}}</Text>
+    </AppContainer>
+  )
+}
+
+export default {{pascalCase name}}

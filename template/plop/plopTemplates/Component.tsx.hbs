@@ -1,0 +1,20 @@
+import React from 'react'
+import {Text} from 'react-native'
+
+import {myStyles} from './{{pascalCase name}}.styles'
+import {useColor} from '@/hooks'
+
+interface {{pascalCase name}}Props {}
+
+const {{pascalCase name}} = ({}: {{pascalCase name}}Props) => {
+  const colors = useColor()
+  const styles = myStyles(colors)
+
+  return(
+    <Text>{{pascalCase name}}</Text>
+  )
+}
+
+{{pascalCase name}}.defaultProps = {}
+
+export default {{pascalCase name}}
