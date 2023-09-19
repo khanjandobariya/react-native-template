@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react'
 
 import {ThemeContext} from './ThemeContext'
 
-export const ThemeProvider = ({children}) => {
+export const ThemeProvider = ({children}: {children: React.ReactNode}) => {
   const [theme, setTheme] = useState(0)
 
   const changeTheme = useCallback(() => {
