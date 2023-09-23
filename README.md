@@ -1,8 +1,10 @@
+
+
 # React native project template
 
 ## Initialization
 
-run below command to generate react native project with this template.
+1️⃣ **run below command to generate react native project with this template.**
 
 ```bash
 npx react-native init PROJECT_NAME --template https://github.com/khanjandobariya/react-native-template
@@ -12,6 +14,24 @@ or
 
 ```bash
 npx react-native init PROJECT_NAME --template PATH_TO_LOCAL
+```
+
+2️⃣ **install packages**
+
+```bash
+yarn
+```
+
+or
+
+```bash
+npm install
+```
+
+3️⃣ **install pods (for ios)**
+
+```bash
+cd ios && pod install
 ```
 
 ## Automatically generate components and screens
