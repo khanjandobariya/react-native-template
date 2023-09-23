@@ -10,7 +10,7 @@ const DarkTheme = {
   statusBar: '#FFFFFF'
 }
 
-export type ColorType = {
+export interface ColorType {
   background?: string
   modalOverlay?: string
   statusBar?: string

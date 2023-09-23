@@ -3,6 +3,7 @@ import {ActivityIndicator, StyleSheet, View} from 'react-native'
 
 import useColor from '@/hooks/useColor'
 import {ColorType, Opacity} from '@/theme/Theme'
+import {type ColorType, Opacity} from '@/theme/Theme'
 import {scale} from '@/utils/Responsive'
 
 const AppLoader = forwardRef((ref: any, props) => {

@@ -1,6 +1,6 @@
 import {useContext} from 'react'
 
-import {ColorType, Theme} from '@/theme/Theme'
+import {type ColorType, Theme} from '@/theme/Theme'
 import {ThemeContext} from '@/theme/ThemeProvider/ThemeContext'
 
 const useColor = () => {

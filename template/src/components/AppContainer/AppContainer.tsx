@@ -2,7 +2,7 @@ import React from 'react'
 import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native'
 
 import useColor from '@/hooks/useColor'
-import {ColorType} from '@/theme/Theme'
+import {type ColorType} from '@/theme/Theme'
 
 interface AppContainerProps {
   isTopSafeArea: boolean

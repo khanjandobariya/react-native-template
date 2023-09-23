@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import Axios, {AxiosRequestConfig} from 'axios'
+import Axios, {type AxiosRequestConfig} from 'axios'
 
 import Config from '@/config/Config'
 
@@ -12,9 +12,9 @@ axiosInstance.interceptors.request.use(
     console.log('axios request =>', config)
     return config
   },
-  (error) => {
+  async (error) => {
     console.log('axios request error =>', error)
-    return Promise.reject(error)
+    return await Promise.reject(error)
   }
 )
 
@@ -23,15 +23,17 @@ axiosInstance.interceptors.response.use(
     console.log('axios response =>', config)
     return config
   },
-  (error) => {
+  async (error) => {
     console.log('axios response error =>', error.response || error)
-    return Promise.reject(error)
+    return await Promise.reject(error)
   }
 )
 
 const getFormData = (object: any) => {
   const formData = new FormData()
-  Object.keys(object).forEach((key) => formData.append(key, object[key]))
+  Object.keys(object).forEach((key) => {
+    formData.append(key, object[key])
+  })
   return formData
 }
 
@@ -64,9 +66,11 @@ const APICall = async (
     config.headers = headers
   }
 
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     axiosInstance(config)
-      .then((res) => resolve(res.data))
+      .then((res) => {
+        resolve(res.data)
+      })
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 502 || error.response.status === 404) {

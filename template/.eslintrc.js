@@ -42,7 +42,8 @@ module.exports = {
     '@typescript-eslint/restrict-template-expressions': 'off',
     '@typescript-eslint/no-floating-promises': 'warn',
     'prefer-promise-reject-errors': 'off',
-    '@typescript-eslint/restrict-plus-operands': 'off'
+    '@typescript-eslint/restrict-plus-operands': 'off',
+    '@typescript-eslint/no-empty-function': 'off'
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
