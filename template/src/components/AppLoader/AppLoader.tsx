@@ -1,27 +1,15 @@
-import React, {forwardRef, useImperativeHandle, useState} from 'react'
+import React from 'react'
 import {ActivityIndicator, StyleSheet, View} from 'react-native'
 
+import {useAppStateContext} from '@/hooks'
 import useColor from '@/hooks/useColor'
-import {ColorType, Opacity} from '@/theme/Theme'
 import {type ColorType, Opacity} from '@/theme/Theme'
 import {scale} from '@/utils/Responsive'
 
-const AppLoader = forwardRef((ref: any, props) => {
-  const [isLoading, setLoading] = useState(false)
+const AppLoader = () => {
+  const {isLoading} = useAppStateContext()
   const colors = useColor()
   const styles = myStyles(colors)
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      showLoader
-    }),
-    []
-  )
-
-  const showLoader = (isLoading: boolean) => {
-    setLoading(isLoading)
-  }
 
   if (isLoading) {
     return (
@@ -33,7 +21,7 @@ const AppLoader = forwardRef((ref: any, props) => {
     )
   }
   return null
-})
+}
 
 export default AppLoader
 
