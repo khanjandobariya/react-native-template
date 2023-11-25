@@ -10,6 +10,7 @@ module.exports = {
     'prettier'
   ],
   rules: {
+    'prettier/prettier': 'error',
     semi: 'off',
     'comma-dangle': 'off',
     'no-console': 'error',
