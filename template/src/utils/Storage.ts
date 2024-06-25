@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const setData = async (key: string, payload: any) => {

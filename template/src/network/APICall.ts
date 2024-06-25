@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable no-console */
 import Axios, {type AxiosRequestConfig} from 'axios'
 
