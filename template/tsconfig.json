@@ -1,6 +1,7 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
+    "jsx": "react",
     "target": "es2017",
     "noImplicitAny": true,
     "strict": false,
