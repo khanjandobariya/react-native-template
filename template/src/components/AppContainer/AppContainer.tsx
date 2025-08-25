@@ -1,5 +1,5 @@
 import React from 'react'
-import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native'
+import {Platform, SafeAreaView, StatusBar, StyleSheet, View} from 'react-native'
 
 import useColor from '@/hooks/useColor'
 import {type ColorType} from '@/theme/Theme'
@@ -12,7 +12,12 @@ interface AppContainerProps {
 }
 
 const AppContainer = (props: AppContainerProps) => {
-  const {isTopSafeArea, isBottomSafeArea, bottomColor, children} = props
+  const {
+    bottomColor,
+    children,
+    isTopSafeArea = Platform.OS === 'ios',
+    isBottomSafeArea = Platform.OS === 'ios'
+  } = props
   const colors = useColor()
   const TopComponent = isTopSafeArea ? SafeAreaView : View
   const BottomComponent = isBottomSafeArea ? SafeAreaView : View
