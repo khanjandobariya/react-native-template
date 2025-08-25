@@ -7,13 +7,13 @@
 1️⃣ **run below command to generate react native project with this template.**
 
 ```bash
-npx react-native init PROJECT_NAME --template https://github.com/khanjandobariya/react-native-template
+npx --yes @react-native-community/cli@latest init PROJECT_NAME --template https://github.com/khanjandobariya/react-native-template
 ```
 
 or
 
 ```bash
-npx react-native init PROJECT_NAME --template PATH_TO_LOCAL
+npx --yes @react-native-community/cli@latest init PROJECT_NAME --template PATH_TO_LOCAL
 ```
 
 2️⃣ **install packages**
