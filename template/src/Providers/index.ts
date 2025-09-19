@@ -1,5 +1,5 @@
 import AppAuthentication from './AppAuthentication/AppAuthentication'
-import AppProviders from './AppProviders/AppProviders'
 import AppEdgedProvider from './AppEdgedProvider/AppEdgedProvider'
+import AppProviders from './AppProviders/AppProviders'
 
-export {AppAuthentication, AppProviders, AppEdgedProvider}
+export {AppAuthentication, AppEdgedProvider, AppProviders}

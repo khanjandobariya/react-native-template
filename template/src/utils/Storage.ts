@@ -1,18 +1,21 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import {MMKV} from 'react-native-mmkv'
 
-const setData = async (key: string, payload: any) => {
+import type {Any} from '@/types/commonTypes'
+
+export const storage: MMKV = new MMKV()
+
+const setData: (key: string, payload: Any) => void = (key: string, payload: Any) => {
   try {
-    await AsyncStorage.setItem(key, JSON.stringify(payload))
+    storage.set(key, JSON.stringify(payload))
   } catch (e) {
     throw new Error(e)
   }
 }
 
-const getData = async (key: string) => {
+const getData: Any = async (key: string): Promise<Any> => {
   try {
-    const value = await AsyncStorage.getItem(key)
-    if (value !== null) {
+    const value: string | undefined = storage.getString(key)
+    if (value !== undefined) {
       return JSON.parse(value)
     }
     return null

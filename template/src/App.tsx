@@ -1,11 +1,15 @@
-import React from 'react'
-
 import './i18n/i18n'
-import {AppLoader} from './components'
-import {AppNavigation} from './router'
-import {AppProviders} from './Providers'
 
-const App = () => {
+import React from 'react'
+import {LogBox} from 'react-native'
+
+import {AppLoader} from './components'
+import {AppProviders} from './Providers'
+import {AppNavigation} from './router'
+
+LogBox.ignoreAllLogs()
+
+const App: React.FC = () => {
   return (
     <AppProviders>
       <AppNavigation />

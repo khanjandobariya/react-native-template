@@ -1,0 +1,19 @@
+import React from 'react'
+import {Text} from 'react-native'
+
+import {useColor} from '@/hooks'
+import type {ColorType} from '@/theme/Theme'
+
+import use{{name}} from './hooks/use{{name}}'
+import {myStyles} from './{{name}}.styles'
+import type { {{name}}Props } from './types/{{name}}.types'
+
+const {{name}} = (props: {{name}}Props) => {
+  const colors: ColorType = useColor()
+  const styles = myStyles(colors)
+  const {} = use{{name}}(props)
+
+  return <Text>{{name}}</Text>
+}
+
+export default {{name}}

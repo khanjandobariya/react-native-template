@@ -1,13 +1,15 @@
 import React from 'react'
 import {Text, View} from 'react-native'
 
-import {myStyles} from './DashBoardScreen.style'
 import {AppContainer} from '@/components'
 import useColor from '@/hooks/useColor'
+import type {ColorType} from '@/theme/Theme'
+
+import {myStyles} from './DashBoardScreen.style'
 
 const DashBoardScreen = () => {
-  const colors = useColor()
-  const styles = myStyles(colors)
+  const colors: ColorType = useColor()
+  const styles: any = myStyles(colors)
 
   return (
     <AppContainer>

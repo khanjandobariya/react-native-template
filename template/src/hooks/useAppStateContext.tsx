@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState} from 'react'
 
-interface AppStateContextProps {
+type AppStateContextProps = {
   isLoading: boolean
   setIsLoading: (isLoading: boolean) => void
 }
@@ -10,9 +10,10 @@ const AppStateContext = createContext<AppStateContextProps>({
   setIsLoading: () => {}
 })
 
-interface AppStateContextProviderProps {
+type AppStateContextProviderProps = {
   children: React.ReactNode
 }
+// eslint-disable-next-line custom-rules/function-naming-conventions
 export const AppStateContextProvider = ({children}: AppStateContextProviderProps) => {
   const [isLoading, setIsLoading] = useState(false)
 

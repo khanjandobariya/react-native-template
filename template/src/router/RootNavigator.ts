@@ -1,7 +1,9 @@
 import * as React from 'react'
 
-export const navigationRef: any = React.createRef()
+import type {anyType} from '../types/commonTypes'
 
-export const navigate = (name, params) => {
+export const navigationRef: anyType = React.createRef()
+
+export const onNavigate: anyType = (name: string, params: anyType) => {
   navigationRef.current.navigate(name, params)
 }

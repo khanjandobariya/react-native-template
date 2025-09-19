@@ -32,7 +32,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>RCTNewArchEnabled</key>
 	<false/>
 	<key>UILaunchStoryboardName</key>
@@ -49,5 +49,20 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PeterTest-BlackItalic.otf</string>
+		<string>PeterTest-Bold.otf</string>
+		<string>PeterTest-Regular.otf</string>
+		<string>PeterTest-Thin.otf</string>
+		<string>PeterTest-ThinItalic.otf</string>
+		<string>PeterTest-Black.ttf</string>
+		<string>PeterTest-Heavy.ttf</string>
+		<string>PeterTest-Light.ttf</string>
+		<string>PeterTest-MediumItalic.ttf</string>
+		<string>PeterTest-UltralightItalic.ttf</string>
+		<string>PeterTest-Variable.ttf</string>
+		<string>PeterTest-VariableItalic.ttf</string>
+	</array>
 </dict>
 </plist>

@@ -1,0 +1,53 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/PeterTest-Black.ttf",
+      "sha1": "02ddf56f0457d5aee1c9cff8abc77dead09980c4"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-BlackItalic.otf",
+      "sha1": "593cd72902b1222ea99256c6b69264226dbf8673"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-Bold.otf",
+      "sha1": "a2e8303f44f2cacd1414cb0eaad803a63ff2f2b0"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-Heavy.ttf",
+      "sha1": "f049ae8863983ff6c3a93954bca2313b612e5616"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-Light.ttf",
+      "sha1": "91e2ff88056eb2e6e73b04722984cbba40cb75d3"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-MediumItalic.ttf",
+      "sha1": "4ab1445b0ed653df32d178d7896a827e8348ea04"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-Regular.otf",
+      "sha1": "85bbf1a6153ecc468c5e665d76d0c52a40ccd07f"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-Thin.otf",
+      "sha1": "b40627bd8bf077c30434998107ee36b344e5f2db"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-ThinItalic.otf",
+      "sha1": "fa88abc0ddd2c13f81993ddb311b8aada4541e39"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-UltralightItalic.ttf",
+      "sha1": "c958e0926eed30fc6d46cc1c2700dd1dde676c2d"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-Variable.ttf",
+      "sha1": "5c5a4d0e1b57a5eee10ab8fc366fca00f0f016d5"
+    },
+    {
+      "path": "src/assets/fonts/PeterTest-VariableItalic.ttf",
+      "sha1": "524c8890ca4acebe9818af068e3ab7ef5f848ab2"
+    }
+  ]
+}

@@ -1,3 +1,5 @@
 import {createContext} from 'react'
 
-export const ThemeContext = createContext<any>({})
+import type {anyType} from '../../types/commonTypes'
+
+export const ThemeContext = createContext<anyType>({})

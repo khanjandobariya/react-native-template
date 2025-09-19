@@ -12,6 +12,18 @@
 		2C8A2030D3396A2BEC3862FA /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		7C85D3FAC87D45CAAF56958B /* PeterTest-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4F5404A61D7B4F6AB1D80434 /* PeterTest-BlackItalic.otf */; };
+		728EDEE871C94810859A9AFB /* PeterTest-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1A8A4806CA4A6C96896CE0 /* PeterTest-Bold.otf */; };
+		29115EC412C544959995E85F /* PeterTest-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 44ED1993D0B1487A9691682A /* PeterTest-Regular.otf */; };
+		118846E59A58492E8A7CB359 /* PeterTest-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 817F0195A8F64AEF992BFF56 /* PeterTest-Thin.otf */; };
+		A3D49745142643179B1B10E3 /* PeterTest-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7953E88F13A6428B9393158E /* PeterTest-ThinItalic.otf */; };
+		6C31360BC11B4ECC887C8CF2 /* PeterTest-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88D3978C13E743459148D5D2 /* PeterTest-Black.ttf */; };
+		859C953926694F4C803E662E /* PeterTest-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F4B98FAA47F47A7A7FBD1FC /* PeterTest-Heavy.ttf */; };
+		D31BDA89D78C4D3D89F449D2 /* PeterTest-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 65C33522151F41CFAAED0C0D /* PeterTest-Light.ttf */; };
+		C29E509FF2EA4CB59D7DFAA0 /* PeterTest-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBF9EF01C0F9458DB2B534D6 /* PeterTest-MediumItalic.ttf */; };
+		9364EC07E6524FFB84CC6590 /* PeterTest-UltralightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 503CC5520AF842BE991E012B /* PeterTest-UltralightItalic.ttf */; };
+		A36C25160B584151A2CBF521 /* PeterTest-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D59C3734C8AD45B9A96A2D1B /* PeterTest-Variable.ttf */; };
+		DB386BF961C242E2848CA1EE /* PeterTest-VariableItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDF031C417CF4F3B86E448C1 /* PeterTest-VariableItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +37,18 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ProjectName/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ProjectName/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		4F5404A61D7B4F6AB1D80434 /* PeterTest-BlackItalic.otf */ = {isa = PBXFileReference; name = "PeterTest-BlackItalic.otf"; path = "../src/assets/fonts/PeterTest-BlackItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BC1A8A4806CA4A6C96896CE0 /* PeterTest-Bold.otf */ = {isa = PBXFileReference; name = "PeterTest-Bold.otf"; path = "../src/assets/fonts/PeterTest-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		44ED1993D0B1487A9691682A /* PeterTest-Regular.otf */ = {isa = PBXFileReference; name = "PeterTest-Regular.otf"; path = "../src/assets/fonts/PeterTest-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		817F0195A8F64AEF992BFF56 /* PeterTest-Thin.otf */ = {isa = PBXFileReference; name = "PeterTest-Thin.otf"; path = "../src/assets/fonts/PeterTest-Thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7953E88F13A6428B9393158E /* PeterTest-ThinItalic.otf */ = {isa = PBXFileReference; name = "PeterTest-ThinItalic.otf"; path = "../src/assets/fonts/PeterTest-ThinItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		88D3978C13E743459148D5D2 /* PeterTest-Black.ttf */ = {isa = PBXFileReference; name = "PeterTest-Black.ttf"; path = "../src/assets/fonts/PeterTest-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9F4B98FAA47F47A7A7FBD1FC /* PeterTest-Heavy.ttf */ = {isa = PBXFileReference; name = "PeterTest-Heavy.ttf"; path = "../src/assets/fonts/PeterTest-Heavy.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		65C33522151F41CFAAED0C0D /* PeterTest-Light.ttf */ = {isa = PBXFileReference; name = "PeterTest-Light.ttf"; path = "../src/assets/fonts/PeterTest-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BBF9EF01C0F9458DB2B534D6 /* PeterTest-MediumItalic.ttf */ = {isa = PBXFileReference; name = "PeterTest-MediumItalic.ttf"; path = "../src/assets/fonts/PeterTest-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		503CC5520AF842BE991E012B /* PeterTest-UltralightItalic.ttf */ = {isa = PBXFileReference; name = "PeterTest-UltralightItalic.ttf"; path = "../src/assets/fonts/PeterTest-UltralightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D59C3734C8AD45B9A96A2D1B /* PeterTest-Variable.ttf */ = {isa = PBXFileReference; name = "PeterTest-Variable.ttf"; path = "../src/assets/fonts/PeterTest-Variable.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EDF031C417CF4F3B86E448C1 /* PeterTest-VariableItalic.ttf */ = {isa = PBXFileReference; name = "PeterTest-VariableItalic.ttf"; path = "../src/assets/fonts/PeterTest-VariableItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +99,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				614AA424750A4E79A1566DB8 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -97,6 +122,26 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		614AA424750A4E79A1566DB8 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				4F5404A61D7B4F6AB1D80434 /* PeterTest-BlackItalic.otf */,
+				BC1A8A4806CA4A6C96896CE0 /* PeterTest-Bold.otf */,
+				44ED1993D0B1487A9691682A /* PeterTest-Regular.otf */,
+				817F0195A8F64AEF992BFF56 /* PeterTest-Thin.otf */,
+				7953E88F13A6428B9393158E /* PeterTest-ThinItalic.otf */,
+				88D3978C13E743459148D5D2 /* PeterTest-Black.ttf */,
+				9F4B98FAA47F47A7A7FBD1FC /* PeterTest-Heavy.ttf */,
+				65C33522151F41CFAAED0C0D /* PeterTest-Light.ttf */,
+				BBF9EF01C0F9458DB2B534D6 /* PeterTest-MediumItalic.ttf */,
+				503CC5520AF842BE991E012B /* PeterTest-UltralightItalic.ttf */,
+				D59C3734C8AD45B9A96A2D1B /* PeterTest-Variable.ttf */,
+				EDF031C417CF4F3B86E448C1 /* PeterTest-VariableItalic.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -161,6 +206,18 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				2C8A2030D3396A2BEC3862FA /* PrivacyInfo.xcprivacy in Resources */,
+				7C85D3FAC87D45CAAF56958B /* PeterTest-BlackItalic.otf in Resources */,
+				728EDEE871C94810859A9AFB /* PeterTest-Bold.otf in Resources */,
+				29115EC412C544959995E85F /* PeterTest-Regular.otf in Resources */,
+				118846E59A58492E8A7CB359 /* PeterTest-Thin.otf in Resources */,
+				A3D49745142643179B1B10E3 /* PeterTest-ThinItalic.otf in Resources */,
+				6C31360BC11B4ECC887C8CF2 /* PeterTest-Black.ttf in Resources */,
+				859C953926694F4C803E662E /* PeterTest-Heavy.ttf in Resources */,
+				D31BDA89D78C4D3D89F449D2 /* PeterTest-Light.ttf in Resources */,
+				C29E509FF2EA4CB59D7DFAA0 /* PeterTest-MediumItalic.ttf in Resources */,
+				9364EC07E6524FFB84CC6590 /* PeterTest-UltralightItalic.ttf in Resources */,
+				A36C25160B584151A2CBF521 /* PeterTest-Variable.ttf in Resources */,
+				DB386BF961C242E2848CA1EE /* PeterTest-VariableItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

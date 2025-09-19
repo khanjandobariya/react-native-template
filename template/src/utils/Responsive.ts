@@ -3,7 +3,10 @@ import {isTablet} from 'react-native-device-info'
 
 const {height: W_HEIGHT, width: W_WIDTH} = Dimensions.get('window')
 
-let isIPhoneX = false
+type CommonFunType = (val: number) => number
+type GetStatusBarHeightFn = () => number
+
+let isIPhoneX: boolean = false
 
 if (Platform.OS === 'ios' && !Platform.isPad) {
   isIPhoneX =
@@ -19,52 +22,60 @@ if (Platform.OS === 'ios' && !Platform.isPad) {
     W_WIDTH === 926
 }
 
-const screenWidth = Dimensions.get('window').width
-const screenHeight = Dimensions.get('window').height
+const screenWidth: number = Dimensions.get('window').width
+const screenHeight: number = Dimensions.get('window').height
 
-const widthPx = (widthPercent: number) => {
+const widthPx: CommonFunType = (widthPercent: number): number => {
   return (screenWidth * widthPercent) / 100
 }
 
-const heightPx = (heightPercent: number) => {
+const heightPx: CommonFunType = (heightPercent: number) => {
   return ((screenHeight - getStatusBarHeight()) * heightPercent) / 100
 }
 
-const font = (size: number) => {
+const font: CommonFunType = (size: number) => {
   return (screenWidth * size) / 100
 }
 
-const getStatusBarHeight = () => {
+const getStatusBarHeight: GetStatusBarHeightFn = () => {
   const statusBarHeight: number = Platform.select({
     ios: isIPhoneX ? 78 : 20,
-    android: StatusBar.currentHeight > 24 ? 0 : StatusBar.currentHeight,
+    android:
+      typeof StatusBar.currentHeight === 'number' && StatusBar.currentHeight <= 24
+        ? StatusBar.currentHeight
+        : 0,
     default: 0
   })
   return statusBarHeight
 }
 
-const isIPhoneXSeries = () => {
+const isIPhoneXSeries: CommonFunType = () => {
   if (Platform.OS === 'android') {
     return 0
   }
   return isIPhoneX ? 34 : 0
 }
 
-const isAndroidNouch = Platform.OS === 'android' ? StatusBar.currentHeight > 24 : false
+const isAndroidNouch: boolean =
+  Platform.OS === 'android'
+    ? typeof StatusBar.currentHeight === 'number' && StatusBar.currentHeight > 24
+    : false
 const [shortDimension, longDimension] =
   W_WIDTH < W_HEIGHT ? [W_WIDTH, W_HEIGHT] : [W_HEIGHT, W_WIDTH]
 
 // guideline size
-const guidelineBaseWidth = 375
-const guidelineBaseHeight = 812
+const GUIDELINE_BASE_WIDTH: number = 375
+const GUIDELINE_BASE_HEIGHT: number = 812
 
-const scale = (size: number) => (shortDimension / guidelineBaseWidth) * size
+const scale: CommonFunType = (size: number) => (shortDimension / GUIDELINE_BASE_WIDTH) * size
 
-const verticalScale = (size: number) => (longDimension / guidelineBaseHeight) * size
+const verticalScale: CommonFunType = (size: number) =>
+  (longDimension / GUIDELINE_BASE_HEIGHT) * size
 
-const moderateScale = (size: number, factor = 0.5) => size + (scale(size) - size) * factor
+const moderateScale: CommonFunType = (size: number, factor: number = 0.5): number =>
+  size + (scale(size) - size) * factor
 
-const isTab = isTablet()
+const isTab: boolean = isTablet()
 
 export {
   font,

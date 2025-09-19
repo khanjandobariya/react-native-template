@@ -1,15 +1,14 @@
-import React from 'react'
 import {ActivityIndicator, StyleSheet, View} from 'react-native'
 
 import {useAppStateContext} from '@/hooks'
 import useColor from '@/hooks/useColor'
-import {type ColorType, Opacity} from '@/theme/Theme'
+import {type ColorType, OPACITY} from '@/theme/Theme'
 import {scale} from '@/utils/Responsive'
 
 const AppLoader = () => {
   const {isLoading} = useAppStateContext()
-  const colors = useColor()
-  const styles = myStyles(colors)
+  const colors: ColorType = useColor()
+  const styles: any = myStyles(colors)
 
   if (isLoading) {
     return (
@@ -33,7 +32,7 @@ const myStyles = (colors: ColorType) => {
       height: '100%',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: `${colors.modalOverlay}${Opacity[50]}`
+      backgroundColor: `${colors.modalOverlay}${OPACITY[50]}`
     },
     innerContainer: {
       width: scale(100),

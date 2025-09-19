@@ -1,8 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable no-console */
+/* eslint-disable custom-rules/custom-typedef-ignore-styles */
 import Axios, {type AxiosRequestConfig} from 'axios'
 
 import Config from '@/config/Config'
+import {log} from '@/utils/Utility'
+
+import type {anyType} from '../types/commonTypes'
 
 const axiosInstance = Axios.create({
   baseURL: Config.BASE_URL
@@ -10,27 +12,27 @@ const axiosInstance = Axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    console.log('axios request =>', config)
+    log('axios request =>', config)
     return config
   },
   async (error) => {
-    console.log('axios request error =>', error)
+    log('axios request error =>', error)
     return await Promise.reject(error)
   }
 )
 
 axiosInstance.interceptors.response.use(
   (config) => {
-    console.log('axios response =>', config)
+    log('axios response =>', config)
     return config
   },
   async (error) => {
-    console.log('axios response error =>', error.response || error)
+    log('axios response error =>', error.response || error)
     return await Promise.reject(error)
   }
 )
 
-const getFormData = (object: any) => {
+const getFormData = (object: anyType) => {
   const formData = new FormData()
   Object.keys(object).forEach((key) => {
     formData.append(key, object[key])
@@ -41,8 +43,8 @@ const getFormData = (object: any) => {
 const APICall = async (
   method: string,
   url: string,
-  body?: any,
-  headers?: any,
+  body?: anyType,
+  headers?: anyType,
   formData?: boolean
 ) => {
   method = method.toLowerCase()

@@ -1,0 +1,17 @@
+{
+  "name": "@alfa-ielts/custom-rules",
+  "version": "1.0.0",
+  "description": "Custom ESLint rules for Alfa IELTS React Native App",
+  "main": "index.js",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "react-native",
+    "naming-conventions"
+  ],
+  "author": "Alfa IELTS Team",
+  "license": "MIT",
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  }
+}

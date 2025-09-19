@@ -1,27 +1,41 @@
-const DefaultTheme = {
+const DEFAULT_THEME: ColorType = {
+  accent: '#E24F4F',
+  accentWhite: '#FFFFFF',
   background: '#FFFFFF',
   modalOverlay: '#A9A9A9',
-  statusBar: '#000000'
+  statusBar: '#FFFFFF',
+  greyCF: '#CFCFCF',
+  redDarkB1: '#B11515',
+  blueDark00: '#002952',
+  whiteLightF9: '#F9FAFB',
+  grayLight: '#A1A8B0',
+  blueDarker: '#002952',
+  black00: '#000000',
+  black78: '#797979'
 }
 
-const DarkTheme = {
-  background: '#000000',
+const DARK_THEME: ColorType = {
+  accent: '#E24F4F',
+  accentWhite: '#FFFFFF',
+  background: '#1C1C1C',
   modalOverlay: '#A9A9A9',
-  statusBar: '#FFFFFF'
+  statusBar: '#1C1C1C',
+  greyCF: '#CFCFCF',
+  redDarkB1: '#B11515',
+  blueDark00: '#FFFFFF',
+  whiteLightF9: '#2C2C2C',
+  grayLight: '#A1A8B0',
+  blueDarker: '#FFFFFF',
+  black78: '#797979',
+  black00: '#FFFFFF'
 }
 
-export interface ColorType {
-  background?: string
-  modalOverlay?: string
-  statusBar?: string
+export const THEME: {DefaultTheme: ColorType; DarkTheme: ColorType} = {
+  DefaultTheme: DEFAULT_THEME,
+  DarkTheme: DARK_THEME
 }
 
-export const Theme = {
-  DefaultTheme,
-  DarkTheme
-}
-
-export const Opacity = {
+export const OPACITY: Record<number, string> = {
   100: 'FF',
   99: 'FC',
   98: 'FA',
@@ -123,4 +137,20 @@ export const Opacity = {
   2: '05',
   1: '03',
   0: '00'
+}
+
+export type ColorType = {
+  accent: string
+  background: string
+  modalOverlay?: string
+  statusBar?: string
+  accentWhite?: string
+  grayLight?: string
+  greyCF?: string
+  redDarkB1?: string
+  blueDark00?: string
+  whiteLightF9?: string
+  blueDarker?: string
+  black78?: string
+  black00?: string
 }
