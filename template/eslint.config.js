@@ -124,7 +124,8 @@ module.exports = [
         }
       ],
 
-      '@typescript-eslint/explicit-module-boundary-types': 'off'
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      'react/require-default-props': ['off']
     },
     settings: {
       'import/ignore': ['react-native'],

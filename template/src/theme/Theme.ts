@@ -1,4 +1,5 @@
 const DEFAULT_THEME: ColorType = {
+  transparent: 'transparent',
   accent: '#E24F4F',
   accentWhite: '#FFFFFF',
   background: '#FFFFFF',
@@ -15,6 +16,7 @@ const DEFAULT_THEME: ColorType = {
 }
 
 const DARK_THEME: ColorType = {
+  transparent: 'transparent',
   accent: '#E24F4F',
   accentWhite: '#FFFFFF',
   background: '#1C1C1C',
@@ -140,8 +142,9 @@ export const OPACITY: Record<number, string> = {
 }
 
 export type ColorType = {
-  accent: string
-  background: string
+  transparent?: string
+  accent?: string
+  background?: string
   modalOverlay?: string
   statusBar?: string
   accentWhite?: string

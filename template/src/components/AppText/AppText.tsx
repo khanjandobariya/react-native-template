@@ -1,4 +1,4 @@
-import {Text, type TextProps} from 'react-native'
+import {Platform, Text, type TextProps} from 'react-native'
 
 import {useColor, useResponsiveHook} from '@/hooks'
 import type {ColorType} from '@/theme/Theme'
@@ -26,7 +26,10 @@ const AppText = (props: AppTextProps) => {
   const {children, style, type = TEXT.h3} = props
 
   return (
-    <Text {...props} style={[styles[type], style]}>
+    <Text
+      {...props}
+      style={[styles[type], style, Platform.OS === 'android' && styles.removeSpaces]}
+    >
       {children}
     </Text>
   )

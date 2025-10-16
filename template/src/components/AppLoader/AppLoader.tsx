@@ -1,14 +1,16 @@
 import {ActivityIndicator, StyleSheet, View} from 'react-native'
 
-import {useAppStateContext} from '@/hooks'
+import {useAppStateContext, useResponsiveHook} from '@/hooks'
 import useColor from '@/hooks/useColor'
 import {type ColorType, OPACITY} from '@/theme/Theme'
-import {scale} from '@/utils/Responsive'
+
+import type {RSType} from '../../hooks/useResponsiveHook'
 
 const AppLoader = () => {
   const {isLoading} = useAppStateContext()
+  const RS = useResponsiveHook()
   const colors: ColorType = useColor()
-  const styles: any = myStyles(colors)
+  const styles: any = myStyles(colors, RS)
 
   if (isLoading) {
     return (
@@ -24,7 +26,8 @@ const AppLoader = () => {
 
 export default AppLoader
 
-const myStyles = (colors: ColorType) => {
+const myStyles = (colors: ColorType, RS: RSType) => {
+  const {hs} = RS
   return StyleSheet.create({
     container: {
       position: 'absolute',
@@ -35,8 +38,8 @@ const myStyles = (colors: ColorType) => {
       backgroundColor: `${colors.modalOverlay}${OPACITY[50]}`
     },
     innerContainer: {
-      width: scale(100),
-      height: scale(100),
+      width: hs(100),
+      height: hs(100),
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: colors.background,

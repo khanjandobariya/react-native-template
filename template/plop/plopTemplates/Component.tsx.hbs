@@ -1,7 +1,7 @@
-import React from 'react'
-import {Text} from 'react-native'
+import {Text, View} from 'react-native'
 
-import {useColor} from '@/hooks'
+import {useColor, useResponsiveHook} from '@/hooks'
+import type {RSType} from '@/hooks/useResponsiveHook'
 import type {ColorType} from '@/theme/Theme'
 
 import use{{name}} from './hooks/use{{name}}'
@@ -10,10 +10,15 @@ import type { {{name}}Props } from './types/{{name}}.types'
 
 const {{name}} = (props: {{name}}Props) => {
   const colors: ColorType = useColor()
-  const styles = myStyles(colors)
+  const RS: RSType = useResponsiveHook()
+  const styles = myStyles(colors, RS)
   const {} = use{{name}}(props)
 
-  return <Text>{{name}}</Text>
+  return (
+    <View style={styles.container}>
+      <Text>{{name}}</Text>
+    </View>
+  )
 }
 
 export default {{name}}

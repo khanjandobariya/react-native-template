@@ -1,13 +1,15 @@
 import {StyleSheet} from 'react-native'
 
 import {type ColorType} from '@/theme/Theme'
-import {scale, verticalScale} from '@/utils/Responsive'
 
-export const myStyles = (colors: ColorType, isHorizontal: boolean, size: number) => {
+import type {RSType} from '../../hooks/useResponsiveHook'
+
+export const myStyles = (colors: ColorType, RS: RSType, isHorizontal: boolean, size: number) => {
+  const {vs, hs} = RS
   return StyleSheet.create({
     separator: {
-      width: !isHorizontal ? '100%' : scale(size),
-      height: !isHorizontal ? verticalScale(size) : '100%'
+      width: !isHorizontal ? '100%' : hs(size),
+      height: !isHorizontal ? vs(size) : '100%'
     }
   })
 }

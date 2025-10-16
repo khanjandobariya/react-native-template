@@ -1,9 +1,8 @@
 import React from 'react'
 import {FlatList, type FlatListProps, type StyleProp, View, type ViewStyle} from 'react-native'
 
-import {useColor} from '@/hooks'
+import {useColor, useResponsiveHook} from '@/hooks'
 import type {ColorType} from '@/theme/Theme'
-import {verticalScale} from '@/utils/Responsive'
 
 import type {anyType} from '../../types/commonTypes'
 import {myStyles} from './AppFlatList.styles'
@@ -33,12 +32,12 @@ const AppFlatList = (props: AppFlatListProps) => {
     innerRef = () => {}
   } = props
 
+  const RS = useResponsiveHook()
   const colors: ColorType = useColor()
-  const styles = myStyles(colors)
+  const styles = myStyles(colors, RS)
+  const {vs} = RS
 
-  const renderSeparator = () => (
-    <View style={[{height: verticalScale(separatorHeight)}, separatorStyle]} />
-  )
+  const renderSeparator = () => <View style={[{height: vs(separatorHeight)}, separatorStyle]} />
 
   return (
     <FlatList

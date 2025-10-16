@@ -154,7 +154,6 @@ src/
 └── utils/                  # Utility functions
     ├── Const.ts
     ├── Images.ts
-    ├── Responsive.ts
     ├── Screens.ts
     ├── Storage.ts
     └── Utility.ts

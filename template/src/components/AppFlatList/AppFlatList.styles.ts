@@ -2,25 +2,27 @@ import {StyleSheet} from 'react-native'
 
 import {type ColorType} from '@/theme/Theme'
 import CommonStyles from '@/utils/CommonStyles'
-import {scale, verticalScale} from '@/utils/Responsive'
 
-export const myStyles = (colors: ColorType) => {
+import type {RSType} from '../../hooks/useResponsiveHook'
+
+export const myStyles = (colors: ColorType, RS: RSType) => {
+  const {vs, hs} = RS
   return StyleSheet.create({
     endOfFeed: {
-      paddingVertical: verticalScale(15),
+      paddingVertical: vs(15),
       alignItems: 'center'
     },
     feedsListContainer: {
-      paddingVertical: verticalScale(10)
+      paddingVertical: vs(10)
     },
     loadButton: {
-      height: verticalScale(38),
+      height: vs(38),
       backgroundColor: colors.accent,
-      paddingHorizontal: scale(15),
+      paddingHorizontal: hs(15),
       ...CommonStyles.centerItem,
-      borderRadius: scale(10),
+      borderRadius: hs(10),
       flexDirection: 'row',
-      columnGap: scale(0)
+      columnGap: hs(0)
     }
   })
 }

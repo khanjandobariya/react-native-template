@@ -1,30 +1,41 @@
-import CheckBox from 'react-native-check-box'
+/* eslint-disable custom-rules/custom-typedef-ignore-styles */
+import type {StyleProp, ViewStyle} from 'react-native'
 
 import {useColor} from '@/hooks'
 import type {ColorType} from '@/theme/Theme'
 
-import type {anyType} from '../../types/commonTypes'
-import {myStyles} from './AppCheckbox.styles'
+import {Icons} from '../../utils'
+import AppIcon from '../AppIcon/AppIcon'
+
+export type AppCheckBoxProps = {
+  isChecked: boolean
+  hasError?: boolean
+  style?: StyleProp<ViewStyle>
+  onPress?: () => void
+  disabled?: boolean
+  activeColor?: string
+  inactiveColor?: string
+}
 
 const AppCheckbox = ({
   isChecked = false,
-  leftText,
-  onChangeCheckbox,
   style,
-  disabled,
-  hasError
-}: anyType) => {
+  disabled = false,
+  onPress = () => {},
+  activeColor,
+  inactiveColor
+}: AppCheckBoxProps) => {
   const colors: ColorType = useColor()
-  const styles = myStyles(colors)
+  const active = activeColor ?? colors.accent
+  const inactive = inactiveColor ?? colors.black00
+
   return (
-    <CheckBox
+    <AppIcon
+      source={isChecked ? Icons.check : Icons.uncheck}
       style={style}
-      onClick={() => onChangeCheckbox(!isChecked)}
-      isChecked={isChecked}
-      leftText={leftText}
+      tintColor={isChecked ? active : inactive}
       disabled={disabled}
-      leftTextStyle={styles.leftText}
-      checkBoxColor={isChecked ? colors.accent : hasError ? colors.accent : colors?.blueDarker}
+      onPress={onPress}
     />
   )
 }
