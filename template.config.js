@@ -1,3 +1,9 @@
+/**
+ * Used by `@react-native-community/cli` when installing this repo as `--template`.
+ * The CLI chooses the package manager for the *temporary* fetch dir and for the final
+ * `install` step: it defaults to **npm**. To use **yarn** for `yarn install` after copy,
+ * run init with **`--pm yarn`** (recommended for this template).
+ */
 module.exports = {
   // Placeholder name that will be replaced in package.json, index.json, android/, ios/ for a project name.
   placeholderName: 'ProjectName',
