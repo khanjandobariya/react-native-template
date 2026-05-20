@@ -1,35 +1,61 @@
 const DEFAULT_THEME: ColorType = {
   transparent: 'transparent',
-  accent: '#E24F4F',
   accentWhite: '#FFFFFF',
-  background: '#FFFFFF',
-  modalOverlay: '#A9A9A9',
-  statusBar: '#FFFFFF',
-  greyCF: '#CFCFCF',
-  redDarkB1: '#B11515',
-  blueDark00: '#002952',
-  whiteLightF9: '#F9FAFB',
-  grayLight: '#A1A8B0',
-  blueDarker: '#002952',
-  black00: '#000000',
-  black78: '#797979'
+  green: '#246D29',
+  white: '#FFFFFF',
+  black: '#000000',
+  bgColor: '#F8F8FA',
+  darkBlue: '#0F172A',
+  yellow: '#CFB140',
+  lightGreen: '#BDD3BF',
+  purple: '#9AB1E9',
+  lightBlue: '#C1C3D3',
+  red: '#E34540',
+  borderColor: '#DFDFDF',
+  greenShade: '#E9F0EA',
+  deviderColor: '#E4E4ED',
+  grayText: '#6E6E6E',
+  grayShadeB3: '#B3B3B3',
+  grayShade32: '#323744',
+  // Dynamic Keys
+  primary_bg: '#0F172A',
+  primary_text: '#FFFFFF',
+  card_bg: '#FFFFFF',
+  card_text: '#000000',
+  button_bg: '#1A7332',
+  button_text: '#FFFFFF',
+  clouser_bg: '#BDD3BF',
+  Info_text: '#FFFFFF'
 }
 
 const DARK_THEME: ColorType = {
   transparent: 'transparent',
-  accent: '#E24F4F',
   accentWhite: '#FFFFFF',
-  background: '#1C1C1C',
-  modalOverlay: '#A9A9A9',
-  statusBar: '#1C1C1C',
-  greyCF: '#CFCFCF',
-  redDarkB1: '#B11515',
-  blueDark00: '#FFFFFF',
-  whiteLightF9: '#2C2C2C',
-  grayLight: '#A1A8B0',
-  blueDarker: '#FFFFFF',
-  black78: '#797979',
-  black00: '#FFFFFF'
+  green: '#246D29',
+  white: '#FFFFFF',
+  black: '#000000',
+  bgColor: '#F8F8FA',
+  darkBlue: '#0F172A',
+  yellow: '#CFB140',
+  lightGreen: '#BDD3BF',
+  purple: '#9AB1E9',
+  lightBlue: '#C1C3D3',
+  red: '#E34540',
+  borderColor: '#DFDFDF',
+  greenShade: '#E9F0EA',
+  deviderColor: '#E4E4ED',
+  grayText: '#6E6E6E',
+  grayShadeB3: '#B3B3B3',
+  grayShade32: '#323744',
+  // Dynamic Keys
+  primary_bg: '#0F172A',
+  primary_text: '#FFFFFF',
+  card_bg: '#FFFFFF',
+  card_text: '#000000',
+  button_bg: '#1A7332',
+  button_text: '#FFFFFF',
+  clouser_bg: '#BDD3BF',
+  Info_text: '#FFFFFF'
 }
 
 export const THEME: {DefaultTheme: ColorType; DarkTheme: ColorType} = {
@@ -143,17 +169,30 @@ export const OPACITY: Record<number, string> = {
 
 export type ColorType = {
   transparent?: string
-  accent?: string
-  background?: string
-  modalOverlay?: string
-  statusBar?: string
   accentWhite?: string
-  grayLight?: string
-  greyCF?: string
-  redDarkB1?: string
-  blueDark00?: string
-  whiteLightF9?: string
-  blueDarker?: string
-  black78?: string
-  black00?: string
+  green?: string
+  white?: string
+  black?: string
+  bgColor?: string
+  darkBlue?: string
+  yellow?: string
+  lightGreen?: string
+  purple?: string
+  lightBlue?: string
+  red?: string
+  borderColor?: string
+  greenShade?: string
+  deviderColor?: string
+  grayText?: string
+  grayShadeB3?: string
+  grayShade32?: string
+  // Dynamic Keys
+  card_bg?: string
+  Info_text?: string
+  button_bg?: string
+  card_text?: string
+  clouser_bg?: string
+  primary_bg?: string
+  button_text?: string
+  primary_text?: string
 }

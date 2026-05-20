@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native'
 
 import type {RSType} from '@/hooks/useResponsiveHook'
-import {type ColorType} from '@/theme/Theme'
+import type {ColorType} from '@/theme/Theme'
 
 export const myStyles = (colors: ColorType, RS: RSType, disabled: boolean) => {
   const {ms, hs} = RS
@@ -10,7 +10,9 @@ export const myStyles = (colors: ColorType, RS: RSType, disabled: boolean) => {
       width: ms(24),
       height: ms(24),
       zIndex: 100,
-      padding: !disabled ? hs(2) : 0
+      padding: !disabled ? hs(2) : 0,
+      justifyContent: 'center',
+      alignItems: 'center'
     },
     image: {
       width: '100%',

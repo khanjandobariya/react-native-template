@@ -4,11 +4,13 @@ import type {RSType} from '@/hooks/useResponsiveHook'
 import type {ColorType} from '@/theme/Theme'
 
 export const myStyles = (colors: ColorType, RS: RSType) => {
-  const {vs} = RS
+  const {hs, vs} = RS
   return StyleSheet.create({
-    innerContainer: {
+    container: {
       flex: 1,
-      paddingHorizontal: vs(20)
+      backgroundColor: colors.bgColor,
+      paddingHorizontal: hs(15),
+      paddingVertical: vs(10)
     }
   })
 }

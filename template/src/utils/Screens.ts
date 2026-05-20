@@ -1,13 +1,17 @@
 const Screens: ScreensType = {
+  // PLOP SCREEN NAME
   AuthNavigation: 'AuthNavigation',
+  HomeScreen: 'HomeScreen',
   LoginScreen: 'LoginScreen',
-  DashBoardScreen: 'DashBoardScreen'
+  MainStack: 'MainStack'
 }
 
 export default Screens
 
 type ScreensType = {
+  // PLOP SCREEN TYPE
   AuthNavigation: string
+  HomeScreen: string
   LoginScreen: string
-  DashBoardScreen: string
+  MainStack: string
 }

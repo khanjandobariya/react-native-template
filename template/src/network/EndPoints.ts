@@ -1,5 +1,5 @@
 const EndPoints = {
-  login: 'login'
+  login: 'api/accounts/login/',
+  refreshToken: 'api/token/refresh/'
 }
-
 export default EndPoints

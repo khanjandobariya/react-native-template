@@ -11,11 +11,11 @@ const AppPressable = (props: TouchableOpacityProps) => {
       if (onPress) {
         debounce(() => onPress(event), 100)()
       }
-    } catch (e) {}
+    } catch {}
   }
 
   return (
-    <TouchableOpacity {...props} onPress={onPressHandler}>
+    <TouchableOpacity {...props} onPress={onPressHandler} activeOpacity={0.6}>
       {children}
     </TouchableOpacity>
   )

@@ -1,38 +1,22 @@
-import {Platform, Text, type TextProps} from 'react-native'
+import React from 'react'
+import {Text} from 'react-native'
 
-import {useColor, useResponsiveHook} from '@/hooks'
-import type {ColorType} from '@/theme/Theme'
+import {useCommonHooks} from '@/hooks'
 
-import {myStyles} from './AppText.styles'
-
-export type TextType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5'
-
-type AppTextProps = {
-  type?: TextType
-} & TextProps
-
-export const TEXT: Record<TextType, TextType> = {
-  h1: 'h1',
-  h2: 'h2',
-  h3: 'h3',
-  h4: 'h4',
-  h5: 'h5'
-}
+import {myStyles, TYPOGRAPHY, type TypographyVariant} from './AppText.styles'
+import type {AppTextProps} from './types/AppText.types'
 
 const AppText = (props: AppTextProps) => {
-  const colors: ColorType = useColor()
-  const RS = useResponsiveHook()
-  const styles = myStyles(colors, RS)
-  const {children, style, type = TEXT.h3} = props
+  const {colors, RS} = useCommonHooks()
+  const styles = myStyles(colors, RS) as Record<TypographyVariant, any>
+  const {children, style, variant = TYPOGRAPHY.bodyNormal, color, ...restProps} = props
 
   return (
-    <Text
-      {...props}
-      style={[styles[type], style, Platform.OS === 'android' && styles.removeSpaces]}
-    >
+    <Text {...restProps} style={[styles[variant], color ? {color} : {}, style]}>
       {children}
     </Text>
   )
 }
 
 export default AppText
+export {TYPOGRAPHY}

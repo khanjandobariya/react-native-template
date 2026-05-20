@@ -1,4 +1,7 @@
 import AppNavigation from './AppNavigation'
-import AuthNavigation from './AuthNavigation'
+import AppAuthNavigation from './AuthNavigation'
+import MainStack from './MainNavigation'
 
-export {AppNavigation, AuthNavigation}
+export * from './RootNavigator'
+
+export {AppAuthNavigation, AppNavigation, MainStack}

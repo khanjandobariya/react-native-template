@@ -1,19 +1,19 @@
 import './i18n/i18n'
 
-import React from 'react'
-import {LogBox} from 'react-native'
+import React, {useEffect} from 'react'
+import BootSplash from 'react-native-bootsplash'
 
-import {AppLoader} from './components'
 import {AppProviders} from './Providers'
 import {AppNavigation} from './router'
 
-LogBox.ignoreAllLogs()
-
 const App: React.FC = () => {
+  useEffect(() => {
+    BootSplash.hide({fade: true})
+  }, [])
+
   return (
     <AppProviders>
       <AppNavigation />
-      <AppLoader />
     </AppProviders>
   )
 }

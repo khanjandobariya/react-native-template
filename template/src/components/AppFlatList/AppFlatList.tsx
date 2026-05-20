@@ -4,7 +4,7 @@ import {FlatList, type FlatListProps, type StyleProp, View, type ViewStyle} from
 import {useColor, useResponsiveHook} from '@/hooks'
 import type {ColorType} from '@/theme/Theme'
 
-import type {anyType} from '../../types/commonTypes'
+import type {anyType, RefType} from '../../types/commonTypes'
 import {myStyles} from './AppFlatList.styles'
 
 type AppFlatListProps = {
@@ -18,7 +18,8 @@ type AppFlatListProps = {
   isLoading?: boolean
   onPressLoadMore?: () => void
   loadMoreLabel?: string
-  innerRef?: (data: anyType) => void
+  innerRef?: RefType
+  isDevider?: boolean
 } & FlatListProps<anyType>
 
 const AppFlatList = (props: AppFlatListProps) => {
@@ -29,15 +30,21 @@ const AppFlatList = (props: AppFlatListProps) => {
     separatorStyle,
     showsVerticalScrollIndicator = false,
     contentContainerStyle = {},
-    innerRef = () => {}
+    innerRef = () => {},
+    isDevider = false
   } = props
 
-  const RS = useResponsiveHook()
   const colors: ColorType = useColor()
-  const styles = myStyles(colors, RS)
+  const RS = useResponsiveHook()
   const {vs} = RS
+  const styles = myStyles(colors, RS)
 
-  const renderSeparator = () => <View style={[{height: vs(separatorHeight)}, separatorStyle]} />
+  const renderSeparator = () => {
+    if (isDevider) {
+      return <View style={styles.devider} />
+    }
+    return <View style={[{height: vs(separatorHeight)}, separatorStyle]} />
+  }
 
   return (
     <FlatList

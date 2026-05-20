@@ -7,14 +7,13 @@ module.exports = [
       'node_modules/',
       'android/**',
       'ios/**',
-      '__tests__/**',
       '*.config.js',
       'index.js',
       'plopfile.js'
     ]
   },
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{ts,tsx}', 'src/i18n/locales/**/*.json'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -42,22 +41,64 @@ module.exports = [
       curly: 'off',
       'prefer-destructuring': 'error',
       '@typescript-eslint/explicit-function-return-type': 'off',
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'lodash',
+              importNames: ['default'],
+              message:
+                'Default lodash import is not allowed. Use named imports: import { isEmpty, find } from "lodash"'
+            }
+          ]
+        }
+      ],
       // 🔹 Custom naming convention rules
       'custom-rules/camelcase-dynamic-data': [
         'error',
         {
-          variableNames: ['myStyles', 'styles', 'RS']
+          variableNames: ['myStyles', 'styles', 'RS'],
+          ignoreKeywords: ['Reducer']
         }
       ],
       'custom-rules/constant-static-data': 'error',
       'custom-rules/boolean-is-prefix': 'error',
       'custom-rules/exported-variables-capitalized': 'error',
       'custom-rules/function-spacing': 'error',
-      'custom-rules/function-naming-conventions': 'error',
+      'custom-rules/function-naming-conventions': [
+        'error',
+        {
+          excludePaths: [
+            'src/utils/Utility.ts',
+            'src/utils/Responsive.ts',
+            'src/i18n/i18n.ts',
+            '.styles.ts'
+          ]
+        }
+      ],
       'custom-rules/ignore-typescript-for-styles': [
         'error',
         {
           variableNames: ['myStyles', 'styles', 'RS']
+        }
+      ],
+      'custom-rules/prefer-lodash-methods': 'error',
+      'custom-rules/asset-files-snake-case': [
+        'error',
+        {
+          assetPaths: [
+            'src/assets/gifs',
+            'src/assets/icons',
+            'src/assets/images'
+          ]
+        }
+      ],
+      'custom-rules/prefer-typed-translation': 'error',
+      'custom-rules/no-duplicate-i18n-strings': [
+        'error',
+        {
+          localePaths: ['src/i18n/locales']
         }
       ],
 
@@ -76,7 +117,7 @@ module.exports = [
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/restrict-template-expressions': 'warn',
       '@typescript-eslint/restrict-plus-operands': 'warn',
-      '@typescript-eslint/no-floating-promises': 'warn',
+      '@typescript-eslint/no-floating-promises': 'off',
 
       // 🚫 Disabled noisy rules (to reduce dev pain)
       '@typescript-eslint/no-unsafe-assignment': 'off',
@@ -117,7 +158,7 @@ module.exports = [
         'error',
         {
           variableNames: ['myStyles', 'styles', 'RS'],
-          variableDeclaration: true,
+          variableDeclaration: false,
           arrowParameter: true,
           propertyDeclaration: false,
           memberVariableDeclaration: true

@@ -1,21 +1,38 @@
 import {StyleSheet} from 'react-native'
 
 import type {RSType} from '@/hooks/useResponsiveHook'
-import {type ColorType} from '@/theme/Theme'
-import CommonStyles from '@/utils/CommonStyles'
+import {FONTS} from '@/theme/Fonts'
+import type {ColorType} from '@/theme/Theme'
 
 export const myStyles = (colors: ColorType, RS: RSType) => {
-  const {ms, hs, vs} = RS
+  const {hs, vs, ms} = RS
   return StyleSheet.create({
-    buttonContainer: {
-      height: vs(48), // 48px ≈ 6% of screen height on most devices
-      backgroundColor: colors.accent,
-      paddingHorizontal: hs(18),
-      ...CommonStyles.centerItem,
-      borderRadius: ms(10)
+    // ── Primary (green bg, white text) ──────────────────────────────
+    primaryContainer: {
+      backgroundColor: colors.green,
+      paddingHorizontal: hs(24),
+      paddingVertical: vs(16),
+      borderRadius: ms(50),
+      alignItems: 'center',
+      justifyContent: 'center'
     },
-    labelStyle: {
-      color: colors.accentWhite
+    primaryText: {
+      fontFamily: FONTS.extraBold,
+      fontSize: ms(14),
+      color: colors.white,
+      letterSpacing: 0.5,
+      textTransform: 'uppercase'
+    },
+    // ── Secondary (white bg, black text) ───────────────────────────
+    secondaryContainer: {
+      backgroundColor: colors.white
+    },
+    secondaryText: {
+      color: colors.black
+    },
+    // ── Disabled overlay ──────────────────────────────────────────
+    disabledContainer: {
+      opacity: 0.5
     }
   })
 }

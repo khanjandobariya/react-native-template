@@ -1,5 +1,6 @@
 import LoginScreen from './auth/LoginScreen/LoginScreen'
-import DashBoardScreen from './main/DashBoardScreen/DashBoardScreen'
+import HomeScreen from './main/HomeScreen/HomeScreen'
 // PLOP SCREEN IMPORTS
 
-export {DashBoardScreen, LoginScreen}
+export {HomeScreen, LoginScreen}
+// PLOP SCREEN EXPORTS

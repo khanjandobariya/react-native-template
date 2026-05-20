@@ -39,7 +39,7 @@ module.exports = function (plop) {
       const location = data.location
 
       // Check if the location is inside src/components
-      const isInsideComponents = location.startsWith('src/components')
+      const isInsideComponents = location.includes('src/components')
 
       const actions = [
         {
@@ -71,7 +71,7 @@ module.exports = function (plop) {
       // If location is inside src/components, add import/export updates
       if (isInsideComponents) {
         // Calculate relative path from src/components to the component location
-        const relativePath = location.replace('src/components/', '').replace('src/components', '')
+        const relativePath = location.split('src/components')[1].replace(/^\//, '')
         const importPath = relativePath
           ? `${relativePath}/${componentName}/${componentName}`
           : `${componentName}/${componentName}`
@@ -86,7 +86,7 @@ module.exports = function (plop) {
           {
             path: 'src/components/index.ts',
             pattern: /(\/\/ PLOP COMPONENT EXPORTS)/g,
-            template: `,\n  ${componentName}$1`,
+            template: `$1\n  ${componentName},`,
             type: 'modify'
           }
         )
@@ -135,7 +135,7 @@ module.exports = function (plop) {
       const location = data.location
 
       // Check if the location is inside src/screens
-      const isInsideScreens = location.startsWith('src/screens')
+      const isInsideScreens = location.includes('src/screens')
 
       const actions = [
         {
@@ -167,7 +167,7 @@ module.exports = function (plop) {
       // If location is inside src/screens, add import/export updates
       if (isInsideScreens) {
         // Calculate relative path from src/screens to the screen location
-        const relativePath = location.replace('src/screens/', '').replace('src/screens', '')
+        const relativePath = location.split('src/screens')[1].replace(/^\//, '')
         const importPath = relativePath
           ? `${relativePath}/${screenName}/${screenName}`
           : `${screenName}/${screenName}`
@@ -182,7 +182,132 @@ module.exports = function (plop) {
           {
             path: 'src/screens/index.ts',
             pattern: /(\/\/ PLOP SCREEN EXPORTS)/g,
-            template: `,\n  ${screenName}$1`,
+            template: `$1\n  ${screenName},`,
+            type: 'modify'
+          },
+          {
+            path: 'src/utils/Screens.ts',
+            pattern: /(\/\/ PLOP SCREEN NAME)/g,
+            template: `$1\n  ${screenName}: '${screenName}',`,
+            type: 'modify'
+          },
+          {
+            path: 'src/utils/Screens.ts',
+            pattern: /(\/\/ PLOP SCREEN TYPE)/g,
+            template: `$1\n  ${screenName}: string,`,
+            type: 'modify'
+          },
+          {
+            path: 'src/router/AppNavigation.tsx',
+            pattern: /(\{\/\* PLOP SCREEN STACK \*\/})/g,
+            template: `      <Stack.Screen name={Screen.${screenName}} component={View.${screenName}} />\n      $1`,
+            type: 'modify'
+          },
+          {
+            path: 'src/i18n/locales/en.json',
+            pattern: /(}\s*)(?=\s*}\s*$)/g,
+            template: `,\n    "{{camelCase name}}": {\n      "welcome": "Welcome"\n    }$1`,
+            type: 'modify'
+          }
+        )
+      }
+
+      return actions
+    }
+  })
+
+  // --MODAL GENERATOR--
+  plop.setGenerator('modal', {
+    description: 'Generate a modal',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: "\x1b[33mWhat is this modal's name?\x1b[0m",
+        validate: function (value) {
+          if (!/.+/.test(value)) {
+            return 'Modal name is required'
+          }
+          // Check if the value is in PascalCase
+          if (!/^[A-Z][a-zA-Z0-9]*$/.test(value)) {
+            return 'Modal name must be in PascalCase (e.g., MyModal, UserProfileModal, etc.)'
+          }
+          // Check if the name ends with "Modal"
+          if (!/Modal$/.test(value)) {
+            return 'Modal name must end with "Modal" (e.g., MyModal, UserProfileModal, etc.)'
+          }
+          return true
+        },
+        filter: function (value) {
+          // Just return the value as-is, no automatic suffix
+          return value
+        }
+      },
+      {
+        type: 'input',
+        name: 'location',
+        message:
+          '\x1b[33mWhere do you want to create this modal? (default: src/modals/)\x1b[0m',
+        default: 'src/modals',
+        filter: function (value) {
+          // Remove trailing slash if present
+          return value.replace(/\/$/, '')
+        }
+      }
+    ],
+    actions: function (data) {
+      const modalName = plop.getHelper('pascalCase')(data.name)
+      const location = data.location
+
+      // Check if the location is inside src/modals
+      const isInsideModals = location.includes('src/modals')
+
+      const actions = [
+        {
+          type: 'add',
+          path: `${location}/${modalName}/${modalName}.tsx`,
+          templateFile: 'plop/plopTemplates/Component.tsx.hbs',
+          data: {name: modalName}
+        },
+        {
+          type: 'add',
+          path: `${location}/${modalName}/${modalName}.styles.ts`,
+          templateFile: 'plop/plopTemplates/styles.ts.hbs',
+          data: {name: modalName}
+        },
+        {
+          type: 'add',
+          path: `${location}/${modalName}/hooks/use${modalName}.ts`,
+          templateFile: 'plop/plopTemplates/useComponent.ts.hbs',
+          data: {name: modalName}
+        },
+        {
+          type: 'add',
+          path: `${location}/${modalName}/types/${modalName}.types.ts`,
+          templateFile: 'plop/plopTemplates/Component.types.ts.hbs',
+          data: {name: modalName}
+        }
+      ]
+
+      // If location is inside src/modals, add import/export updates
+      if (isInsideModals) {
+        // Calculate relative path from src/modals to the modal location
+        const relativePath = location.split('src/modals')[1].replace(/^\//, '')
+        const importPath = relativePath
+          ? `${relativePath}/${modalName}/${modalName}`
+          : `${modalName}/${modalName}`
+
+        actions.push(
+          {
+            path: 'src/modals/index.ts',
+            pattern: /(\/\/ PLOP MODAL IMPORTS)/g,
+            template: `import ${modalName} from './${importPath}';\n$1`,
+            type: 'modify'
+          },
+          {
+            path: 'src/modals/index.ts',
+            pattern: /(\/\/ PLOP MODAL EXPORTS)/g,
+            template: `$1\n  ${modalName},`,
             type: 'modify'
           }
         )

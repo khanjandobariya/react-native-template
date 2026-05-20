@@ -1,32 +1,33 @@
-import {type StyleProp, type TextStyle, type ViewStyle} from 'react-native'
+import {AppPressable, AppText} from '@/components'
+import {useCommonHooks} from '@/hooks'
 
-import {useColor, useResponsiveHook} from '@/hooks'
-import type {RSType} from '@/hooks/useResponsiveHook'
-import type {ColorType} from '@/theme/Theme'
-
-import AppPressable from '../AppPressable/AppPressable'
-import AppText, {TEXT} from '../AppText/AppText'
 import {myStyles} from './AppButton.styles'
-
-type AppButtonProps = {
-  onPress: () => void
-  label: string
-  disabled?: boolean
-  style?: StyleProp<ViewStyle>
-  labelStyle?: StyleProp<TextStyle>
-}
+import type {AppButtonProps} from './types/AppButton.types'
 
 const AppButton = (props: AppButtonProps) => {
-  const colors: ColorType = useColor()
-  const RS: RSType = useResponsiveHook()
-
+  const {title, mode = 'primary', onPress, style, textStyle, disabled} = props
+  const {colors, RS} = useCommonHooks()
   const styles = myStyles(colors, RS)
-  const {onPress, label, disabled, style, labelStyle} = props
+
+  const isPrimary = mode === 'primary'
 
   return (
-    <AppPressable onPress={onPress} disabled={disabled} style={[styles.buttonContainer, style]}>
-      <AppText style={[styles.labelStyle, labelStyle]} type={TEXT.h2}>
-        {label}
+    <AppPressable
+      activeOpacity={0.8}
+      onPress={onPress}
+      disabled={disabled}
+      style={[
+        styles.primaryContainer,
+        !isPrimary && styles.secondaryContainer,
+        disabled && styles.disabledContainer,
+        style
+      ]}
+    >
+      <AppText
+        variant="bodyNormalExtraBold"
+        style={[styles.primaryText, !isPrimary && styles.secondaryText, textStyle]}
+      >
+        {title}
       </AppText>
     </AppPressable>
   )

@@ -1,10 +1,12 @@
-/* eslint-disable custom-rules/camelcase-dynamic-data */
 import {useCallback} from 'react'
+import {Platform} from 'react-native'
 import {isTablet} from 'react-native-device-info'
 import {useResponsive, type UseResponsiveReturnType} from 'react-native-responsive-hook'
 
-const GUIDELINE_BASE_WIDTH: number = 375
-const GUIDELINE_BASE_HEIGHT: number = 812
+import {isIOS26OrAbove} from '@/utils/Utility'
+
+const GUIDELINE_BASE_WIDTH: number = 402
+const GUIDELINE_BASE_HEIGHT: number = 874
 
 export type RSType = {
   hs: (pixels: number) => number
@@ -30,25 +32,25 @@ const useResponsiveHook = () => {
 
   const isTab: boolean = isTablet()
 
-  const H_FACT: number = isLandscape ? 0.6 : 0.8
-  const V_FACT: number = isLandscape ? 1.2 : 0.8
+  const hFact: number = isLandscape ? 0.6 : 0.8
+  const vFact: number = isLandscape ? 1.2 : 0.8
   const FONT_FACT: number = 0.5
 
   const hs: (pixels: number) => number = useCallback(
     (pixels: number): number => {
-      const value: number = isTab ? pixels * H_FACT : pixels
+      const value: number = isTab ? pixels * hFact : pixels
       return wp((value / GUIDELINE_BASE_WIDTH) * 100)
     },
-    [isLandscape, isPortrait]
+    [isLandscape, isPortrait, hFact, isTab, wp]
   )
 
   const vs: (pixels: number) => number = useCallback(
     (pixels: number): number => {
-      const value: number = isTab ? pixels * V_FACT : pixels
+      const value: number = isTab ? pixels * vFact : pixels
 
       return hp((value / GUIDELINE_BASE_HEIGHT) * 100)
     },
-    [isLandscape, isPortrait]
+    [isLandscape, isPortrait, hp, isTab, vFact]
   )
 
   const ms: (pixels: number) => number = useCallback(
@@ -57,8 +59,11 @@ const useResponsiveHook = () => {
 
       return rem(value)
     },
-    [isLandscape, isPortrait]
+    [isLandscape, isPortrait, isTab, rem]
   )
+
+  const isTransparent: boolean = isIOS26OrAbove(String(Platform.Version))
+  const keyboardVerticalOffset: number = Platform.OS === 'android' ? 30 : isTransparent ? 10 : 40
 
   return {
     wp,
@@ -75,7 +80,8 @@ const useResponsiveHook = () => {
     isAndroid,
     breakpointGroup,
     isLandscape,
-    isPortrait
+    isPortrait,
+    keyboardVerticalOffset
   }
 }
 

@@ -1,10 +1,11 @@
 import {Config as AppConfig} from 'react-native-config'
 
-const isStaging: boolean = true
+const isStaging: boolean = false
 
 const Config = {
-  BASE_URL: isStaging ? AppConfig.BASE_URL : AppConfig.PROD_URL,
-  isPROD: !isStaging
+  isUAT: isStaging,
+  SENTRY_DSN: AppConfig.SENTRY_DSN,
+  BASE_URL: AppConfig.BASE_URL
 }
 
 export default Config

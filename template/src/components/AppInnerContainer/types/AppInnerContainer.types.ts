@@ -1,9 +1,9 @@
-import type React from 'react'
-import type {StyleProp, ViewStyle} from 'react-native'
+import type {ViewStyle} from 'react-native'
 
 type AppInnerContainerProps = {
+  bgColor?: string
   children: React.ReactNode
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
 }
 
 export type {AppInnerContainerProps}

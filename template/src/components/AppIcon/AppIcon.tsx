@@ -1,32 +1,12 @@
-import {
-  Image,
-  type ImageResizeMode,
-  type ImageSourcePropType,
-  type ImageStyle,
-  type StyleProp,
-  type ViewStyle
-} from 'react-native'
+import {Image} from 'react-native'
 
-import {useColor, useResponsiveHook} from '@/hooks'
-import type {ColorType} from '@/theme/Theme'
+import {useCommonHooks} from '@/hooks'
 
 import AppPressable from '../AppPressable/AppPressable'
 import {myStyles} from './AppIcon.styles'
-
-type AppIconProps = {
-  style?: StyleProp<ViewStyle>
-  resizeMode?: ImageResizeMode
-  source: ImageSourcePropType
-  size?: number
-  tintColor?: string
-  onPress?: () => void
-  disabled?: boolean
-  iconStyle?: StyleProp<ImageStyle>
-}
+import type {AppIconProps} from './types/AppIcon.types'
 
 const AppIcon = (props: AppIconProps) => {
-  const colors: ColorType = useColor()
-
   const {
     style,
     resizeMode = 'contain',
@@ -37,9 +17,7 @@ const AppIcon = (props: AppIconProps) => {
     disabled = true,
     iconStyle
   } = props
-
-  const RS = useResponsiveHook()
-
+  const {colors, RS} = useCommonHooks()
   const styles = myStyles(colors, RS, disabled)
   const {ms} = RS
 

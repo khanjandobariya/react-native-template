@@ -2,23 +2,30 @@ import i18n from 'i18next'
 import {initReactI18next} from 'react-i18next'
 
 import en from './locales/en.json'
-import hindi from './locales/hindi.json'
+import type {TranslationKey, TypedTFunction} from './types'
 
-void i18n.use(initReactI18next).init({
+i18n.use(initReactI18next).init({
   compatibilityJSON: 'v4',
   lng: 'en',
   fallbackLng: 'en',
   resources: {
-    en,
-    hindi
+    en
   },
   interpolation: {
     escapeValue: false
   }
 })
 
-export const translate: (str: string) => string = (str: string): string => {
-  return i18n.t(str)
+// Type-safe translation function
+export const translate: TypedTFunction = (
+  key: TranslationKey,
+  options?: Record<string, unknown>
+): string => {
+  return i18n.t(key, options)
 }
+
+// Type-safe t function (alias for translate)
+// eslint-disable-next-line custom-rules/constant-static-data
+export const t: TypedTFunction = translate
 
 export default i18n

@@ -6,4 +6,14 @@
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
     </style>
 
+    <style name="BootTheme" parent="Theme.BootSplash">
+        <item name="android:windowBackground">@drawable/bootsplash</item>
+        <item name="bootSplashBackground">@drawable/bootsplash</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <!-- false = light (white) status bar icons on dark backgrounds -->
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
 </resources>

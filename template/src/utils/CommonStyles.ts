@@ -27,6 +27,12 @@ const CommonStyles = StyleSheet.create({
   },
   width100: {
     width: '100%'
+  },
+  flexGrow1: {
+    flexGrow: 1
+  },
+  textCenter: {
+    textAlign: 'center'
   }
 })
 

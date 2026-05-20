@@ -1,40 +1,104 @@
 {
   "translation": {
-    "ALFA_1": "Email Address ",
-    "ALFA_2": "Enter your Email ",
-    "ALFA_3": "Password",
-    "ALFA_4": "Enter your Password",
-    "ALFA_5": "Continue",
-    "ALFA_6": "Please enter email",
-    "ALFA_7": "Please enter valid email",
-    "ALFA_8": "Please enter password",
-    "ALFA_9": "Let’s get",
-    "ALFA_10": "Started",
-    "ALFA_11": "Remember Me",
-    "ALFA_12": "Forgot Password?",
-    "ALFA_13": "Login with existing Accounts",
-    "ALFA_14": "Or continue with",
-    "ALFA_15": "Don’t have an account?",
-    "ALFA_16": "Sign Up",
-    "ALFA_17": "Create your",
-    "ALFA_18": "Account",
-    "ALFA_19": "Name",
-    "ALFA_20": "Enter Your Name",
-    "ALFA_21": "I agree to the",
-    "ALFA_22": "terms and conditions",
-    "ALFA_23": "and",
-    "ALFA_24": "privacy policy",
-    "ALFA_25": "Continue",
-    "ALFA_26": "Already have an account?",
-    "ALFA_27": "Login",
-    "ALFA_28": "Name is required",
-    "ALFA_29": "Password must be at least 8 characters",
-    "ALFA_30": "Password must contain uppercase, lowercase, number and special character",
-    "ALFA_31": "Login With existing Accounts",
-    "ALFA_32": "Choose one existing account remembered on this device",
-    "ALFA_33": "Close",
-    "ALFA_34": "Forgot",
-    "ALFA_35": "Password",
-    "ALFA_36": "Send Email"
+    "common": {
+      "login": "Login",
+      "home": "Home"
+    },
+    "loginScreen": {
+      "welcome": "Welcome back!",
+      "emailPlaceholder": "Email Address",
+      "passwordPlaceholder": "Password",
+      "selectCompetition": "Select Competition",
+      "forgotPassword": "Forgot Password?",
+      "login": "LOGIN",
+      "getInTouchDesc": "Interested in this app for your competition?",
+      "getInTouchBtn": "Get In Touch"
+    },
+    "selectCompetitionScreen": {
+      "welcome": "Welcome",
+      "showContactDetails": "Show Contact Details"
+    },
+    "searchCompetitionScreen": {
+      "welcome": "Welcome",
+      "searchPlaceholder": "Search..."
+    },
+    "homeScreen": {
+      "chooseCompetition": "Choose Your Competition"
+    },
+    "competitionSupportScreen": {
+      "title": "Competition Support",
+      "description": "Please contact your competition administrator to get your password immediately.",
+      "phone": "0412 456 789",
+      "email": "admin@nzcteam.com"
+    },
+    "inquiryScreen": {
+      "title": "Inquiry Form",
+      "namePlaceholder": "Name",
+      "emailPlaceholder": "E-mail",
+      "phonePlaceholder": "Phone Number",
+      "messagePlaceholder": "Message",
+      "submit": "SUBMIT"
+    },
+    "noDataFound": {
+      "title": "No Data Found",
+      "description": "No information is available at the moment."
+    },
+    "sidemenu": {
+      "howItWorks": "How it works",
+      "ourPeople": "Our People",
+      "contactUs": "Contact Us",
+      "bookAFreeDemo": "Book a Free Demo",
+      "visitOurWebsite": "Visit Our Website",
+      "version": "VERSION: 1.0",
+      "logout": "Logout"
+    },
+    "stoppageOccursScreen": {
+      "welcome": "Welcome",
+      "happenedIn": "First Stoppage happened in the",
+      "firstInnings": "First Innings",
+      "secondInnings": "Second Innings"
+    },
+    "confirmTimingsScreen": {
+      "welcome": "Welcome",
+      "title": "Confirm Timings",
+      "infoText": "Change if required and submit",
+      "matchStarted": "Time match started",
+      "extraTime": "Extra time available",
+      "intervalLength": "Length of Interval",
+      "submit": "SUBMIT",
+      "playingConditions": "Playing conditions"
+    },
+    "stoppageInningsScreen": {
+      "welcome": "Welcome",
+      "firstInningsTitle": "First Innings Stoppage",
+      "secondInningsTitle": "Second Innings Stoppage",
+      "stoppageStarted": "Stoppage Started",
+      "restartTime": "Restart Time",
+      "timeMadeUp": "Time made up from reduce interval",
+      "secondInningStarted": "Second Inning Started:",
+      "timeStoppageStarted": "Time Stoppage Started:",
+      "timeInningsRestarted": "Time Innings Restarted:",
+      "submit": "SUBMIT"
+    },
+    "inningTimingsScreen": {
+      "welcome": "Welcome",
+      "firstInningTitle": "First Innings Rescheduled Timings",
+      "secondInningTitle": "Second Innings Timings:",
+      "stoppageStarted": "Stoppage Started:",
+      "oversPerTeam": "Overs Per Team:",
+      "bowlersOvers": "Bowlers Overs:",
+      "powerplayOvers": "Powerplay Overs:",
+      "firstInningsEndTime": "First Innings End Time:",
+      "interval": "Interval:",
+      "secondInningsStart": "Second Innings Start:",
+      "matchFinishTime": "Match Finish Time:",
+      "editStoppage": "EDIT STOPPAGE & RESTART TIMINGS",
+      "addAnotherStoppage": "ADD ANOTHER STOPPAGE IN FIRST INNINGS",
+      "addStoppageSecondInning": "ADD A STOPPAGE IN SECOND INNINGS",
+      "terminatedAlert": "First Inning has been Terminated.",
+      "maxOvers": "Max Overs To Be Bowled:",
+      "scheduleLength": "Schedule Length of Innings:",
+      "secondInningsStartTime": "Second Innings Start Time:"
+    }
   }
 }

@@ -28,6 +28,13 @@ module.exports = {
                   type: 'string'
                 },
                 default: []
+              },
+              ignoreKeywords: {
+                type: 'array',
+                items: {
+                  type: 'string'
+                },
+                default: []
               }
             },
             additionalProperties: false
@@ -37,9 +44,16 @@ module.exports = {
       create(context) {
         const options = context.options[0] || {}
         const ignoredVariableNames = options.variableNames || []
+        const ignoreKeywords = options.ignoreKeywords || []
 
         function isIgnoredVariable(variableName) {
-          return ignoredVariableNames.includes(variableName)
+          if (ignoredVariableNames.includes(variableName)) {
+            return true
+          }
+          if (ignoreKeywords.some(keyword => variableName.includes(keyword))) {
+            return true
+          }
+          return false
         }
 
         return {
@@ -765,12 +779,98 @@ module.exports = {
           recommended: true
         },
         fixable: null,
-        schema: []
+        schema: [
+          {
+            type: 'object',
+            properties: {
+              excludePaths: {
+                type: 'array',
+                items: {type: 'string'}
+              }
+            },
+            additionalProperties: false
+          }
+        ]
       },
       create(context) {
+        // Get excluded paths from options
+        const options = context.options[0] || {}
+        const excludePaths = options.excludePaths || []
+        
+        // Helper to check if current file should be excluded
+        function isFileExcluded() {
+          const filename = context.getFilename()
+          return excludePaths.some(excludePath => {
+            // Normalize path separators
+            const normalizedPath = excludePath.replace(/\\/g, '/')
+            const normalizedFile = filename.replace(/\\/g, '/')
+            
+            // Check if it's a folder exclusion (ends with /) or file exclusion
+            if (normalizedPath.endsWith('/')) {
+              return normalizedFile.includes(normalizedPath)
+            }
+            return normalizedFile.includes(normalizedPath) || normalizedFile.endsWith(normalizedPath)
+          })
+        }
+
         function isRenderFunction(node) {
           // Check if function returns JSX
           if (!node.init) return false
+
+          // ✅ Check for TypeScript return type annotation (JSX.Element, React.ReactElement, etc.)
+          if (node.init.returnType && node.init.returnType.typeAnnotation) {
+            const returnType = node.init.returnType.typeAnnotation
+            
+            // Handle TSTypeReference (e.g., JSX.Element, ReactElement)
+            if (returnType.type === 'TSTypeReference' && returnType.typeName) {
+              let typeName = ''
+              
+              // Handle qualified names (e.g., JSX.Element)
+              if (returnType.typeName.type === 'TSQualifiedName') {
+                typeName = `${returnType.typeName.left.name}.${returnType.typeName.right.name}`
+              } else if (returnType.typeName.name) {
+                typeName = returnType.typeName.name
+              }
+              
+              // Check if it's a JSX/React element type
+              const jsxReturnTypes = [
+                'JSX.Element',
+                'Element',
+                'ReactElement',
+                'React.ReactElement',
+                'ReactNode',
+                'React.ReactNode'
+              ]
+              
+              if (jsxReturnTypes.includes(typeName)) {
+                return true
+              }
+            }
+            
+            // Handle union types (e.g., JSX.Element | null)
+            if (returnType.type === 'TSUnionType' && returnType.types) {
+              return returnType.types.some((type) => {
+                if (type.type === 'TSTypeReference' && type.typeName) {
+                  let typeName = ''
+                  if (type.typeName.type === 'TSQualifiedName') {
+                    typeName = `${type.typeName.left.name}.${type.typeName.right.name}`
+                  } else if (type.typeName.name) {
+                    typeName = type.typeName.name
+                  }
+                  
+                  return (
+                    typeName === 'JSX.Element' ||
+                    typeName === 'Element' ||
+                    typeName === 'ReactElement' ||
+                    typeName === 'React.ReactElement' ||
+                    typeName === 'ReactNode' ||
+                    typeName === 'React.ReactNode'
+                  )
+                }
+                return false
+              })
+            }
+          }
 
           let functionBody = null
 
@@ -881,6 +981,11 @@ module.exports = {
 
         return {
           VariableDeclarator(node) {
+            // Skip if file is in excluded paths
+            if (isFileExcluded()) {
+              return
+            }
+
             if (node.id && node.id.type === 'Identifier') {
               const functionName = node.id.name
 
@@ -931,10 +1036,10 @@ module.exports = {
 
               // Check onPress handler naming
               else if (isOnPressHandler(node)) {
-                if (!functionName.startsWith('on')) {
+                if (!functionName.startsWith('on') && !functionName.startsWith('get')) {
                   context.report({
                     node: node.id,
-                    message: `Function '${functionName}' handles press/navigation functionality and should start with 'on' (e.g., onNavigate, onPress, onLogin, onBack)`
+                    message: `Function '${functionName}' handles press/navigation functionality and should start with 'on' or 'get' (e.g., onNavigate, onPress, onLogin, onBack, getNotifications)`
                   })
                 } else if (!isCamelCase(functionName)) {
                   context.report({
@@ -943,9 +1048,702 @@ module.exports = {
                   })
                 }
               }
+
+              // ✨ NEW: Check ALL other regular functions
+              else {
+                if (!functionName.startsWith('on') && !functionName.startsWith('get') && !functionName.startsWith('set')) {
+                  context.report({
+                    node: node.id,
+                    message: `Function '${functionName}' should start with 'on' or 'get' or 'set' (e.g., onUserSelection, getUserData, setUserData)`
+                  })
+                } else if (!isCamelCase(functionName)) {
+                  context.report({
+                    node: node.id,
+                    message: `Function '${functionName}' should use camelCase naming`
+                  })
+                }
+              }
             }
           }
         }
+      }
+    },
+
+    'prefer-lodash-methods': {
+      meta: {
+        type: 'suggestion',
+        docs: {
+          description: 'Enforce using Lodash methods instead of native JavaScript array/object/string methods',
+          category: 'Best Practices',
+          recommended: true
+        },
+        fixable: null,
+        messages: {
+          useLodash: 'Use Lodash {{lodashMethod}} instead of native .{{nativeMethod}}(). Import it from lodash: import { {{lodashMethod}} } from "lodash"'
+        },
+        schema: []
+      },
+      create(context) {
+        // Comprehensive map of native methods to their Lodash equivalents
+        const methodMapping = {
+          // ===== ARRAY METHODS =====
+          find: 'find',
+          filter: 'filter',
+          findIndex: 'findIndex',
+          findLast: 'findLast',
+          findLastIndex: 'findLastIndex',
+          map: 'map',
+          reduce: 'reduce',
+          reduceRight: 'reduceRight',
+          forEach: 'forEach',
+          some: 'some',
+          every: 'every',
+          includes: 'includes',
+          indexOf: 'indexOf',
+          lastIndexOf: 'lastIndexOf',
+          slice: 'slice',
+          flat: 'flatten',
+          flatMap: 'flatMap',
+          sort: 'sortBy',
+          reverse: 'reverse',
+          join: 'join',
+          fill: 'fill',
+          concat: 'concat',
+          
+          // ===== OBJECT METHODS (for method calls, not Object.* static) =====
+          keys: 'keys',
+          values: 'values',
+          entries: 'toPairs',
+          
+          // ===== STRING METHODS =====
+          startsWith: 'startsWith',
+          endsWith: 'endsWith',
+          trim: 'trim',
+          trimStart: 'trimStart',
+          trimEnd: 'trimEnd',
+          padStart: 'padStart',
+          padEnd: 'padEnd',
+          repeat: 'repeat',
+          replace: 'replace',
+          split: 'split',
+          toLowerCase: 'toLower',
+          toUpperCase: 'toUpper',
+          
+          // ===== COLLECTION OPERATIONS =====
+          at: 'nth'
+        }
+
+        // Helper function to check if method call is part of a validation library chain
+        function isValidationLibraryChain(node) {
+          // Check if the object is a CallExpression (method chaining)
+          if (node.callee && node.callee.type === 'MemberExpression' && node.callee.object) {
+            let current = node.callee.object
+            
+            // Traverse up the chain to find validation library usage
+            while (current) {
+              // Check for yup.string(), yup.array(), yup.object(), etc.
+              if (
+                current.type === 'CallExpression' &&
+                current.callee &&
+                current.callee.type === 'MemberExpression' &&
+                current.callee.object &&
+                current.callee.object.type === 'Identifier'
+              ) {
+                const libraryName = current.callee.object.name
+                const methodName = current.callee.property?.name
+                
+                // Common validation libraries and their schema methods
+                const validationLibraries = ['yup', 'zod', 'joi', 'validator', 'v']
+                const validationMethods = [
+                  'string',
+                  'number',
+                  'boolean',
+                  'date',
+                  'array',
+                  'object',
+                  'mixed',
+                  'lazy',
+                  'ref',
+                  'schema'
+                ]
+                
+                if (
+                  validationLibraries.includes(libraryName) &&
+                  validationMethods.includes(methodName)
+                ) {
+                  return true
+                }
+              }
+              
+              // Move up the chain
+              if (current.type === 'CallExpression') {
+                current = current.callee
+              } else if (current.type === 'MemberExpression') {
+                current = current.object
+              } else {
+                break
+              }
+            }
+          }
+          return false
+        }
+
+        // Helper function to check if object is likely NOT a native JS type
+        function isLibraryOrCustomObject(node) {
+          if (!node.callee || !node.callee.object) return false
+          
+          const objectNode = node.callee.object
+          
+          // Known library objects that have methods with same names as native JS
+          const knownLibraryObjects = [
+            'navigation',
+            'router',
+            'route',
+            'history',
+            'location',
+            'navigator',
+            'console',
+            'window',
+            'document',
+            'localStorage',
+            'sessionStorage',
+            'formData',
+            'axios',
+            'fetch',
+            'request',
+            'response',
+            'client',
+            'server',
+            'socket',
+            'connection',
+            'db',
+            'query',
+            'schema',
+            'model',
+            'controller',
+            'service',
+            'store',
+            'state',
+            'dispatch',
+            'context',
+            'ref',
+            'props',
+            'theme',
+            'styles',
+            'config',
+            'options',
+            'settings'
+          ]
+          
+          // Check if object is an identifier with a known library name
+          if (objectNode.type === 'Identifier') {
+            const objectName = objectNode.name
+            
+            // Check against known library objects
+            if (knownLibraryObjects.includes(objectName)) {
+              return true
+            }
+            
+            // Check if it's a hook result (starts with 'use' or ends with common patterns)
+            if (
+              objectName.startsWith('use') ||
+              objectName.endsWith('Ref') ||
+              objectName.endsWith('Context') ||
+              objectName.endsWith('Provider') ||
+              objectName.endsWith('Instance') ||
+              objectName.endsWith('Client') ||
+              objectName.endsWith('Service') ||
+              objectName.endsWith('Manager')
+            ) {
+              return true
+            }
+          }
+          
+          // Check if object is result of a function call (likely not a native type)
+          // e.g., useNavigation().replace(), getSomething().map()
+          if (objectNode.type === 'CallExpression') {
+            // If it's a direct call result, it's likely a library object
+            // Exception: Array methods that return arrays (filter, map, slice, etc.)
+            if (objectNode.callee && objectNode.callee.type === 'Identifier') {
+              const callerName = objectNode.callee.name
+              // Skip if it's a known function that returns native types
+              const nativeReturningFunctions = ['String', 'Number', 'Boolean', 'Array', 'Object']
+              if (!nativeReturningFunctions.includes(callerName)) {
+                return true
+              }
+            }
+            
+            // Check if it's a chained call from a hook or library
+            if (
+              objectNode.callee &&
+              objectNode.callee.type === 'MemberExpression' &&
+              objectNode.callee.object &&
+              objectNode.callee.object.type === 'Identifier'
+            ) {
+              const chainedObjectName = objectNode.callee.object.name
+              if (knownLibraryObjects.includes(chainedObjectName)) {
+                return true
+              }
+            }
+          }
+          
+          // Check if it's a member access on a library object
+          // e.g., props.navigation.replace()
+          if (objectNode.type === 'MemberExpression' && objectNode.object) {
+            if (objectNode.object.type === 'Identifier') {
+              const parentObjectName = objectNode.object.name
+              if (knownLibraryObjects.includes(parentObjectName)) {
+                return true
+              }
+            }
+          }
+          
+          return false
+        }
+
+        return {
+          CallExpression(node) {
+            // Check if this is a method call on an object/array (e.g., array.find())
+            if (
+              node.callee &&
+              node.callee.type === 'MemberExpression' &&
+              node.callee.property &&
+              node.callee.property.type === 'Identifier'
+            ) {
+              const methodName = node.callee.property.name
+              
+              // Skip if this is part of a validation library chain
+              if (isValidationLibraryChain(node)) {
+                return
+              }
+              
+              // Skip if this is a known library/custom object (not native JS)
+              if (isLibraryOrCustomObject(node)) {
+                return
+              }
+              
+              // Check if this method should use Lodash instead
+              if (methodMapping[methodName]) {
+                const lodashMethod = methodMapping[methodName]
+                
+                context.report({
+                  node: node.callee.property,
+                  messageId: 'useLodash',
+                  data: {
+                    nativeMethod: methodName,
+                    lodashMethod: lodashMethod
+                  }
+                })
+              }
+            }
+            
+            // Check for Object.*, Array.*, and Math.* static methods (e.g., Object.keys(), Math.floor())
+            if (
+              node.callee &&
+              node.callee.type === 'MemberExpression' &&
+              node.callee.object &&
+              node.callee.object.type === 'Identifier' &&
+              node.callee.property &&
+              node.callee.property.type === 'Identifier'
+            ) {
+              const objectName = node.callee.object.name
+              const methodName = node.callee.property.name
+              
+              // Only check for native global objects
+              const nativeGlobalObjects = ['Object', 'Array', 'Math']
+              
+              if (!nativeGlobalObjects.includes(objectName)) {
+                return
+              }
+              
+              // Map Object.*, Array.*, and Math.* methods to Lodash equivalents
+              const staticMethodMapping = {
+                'Object.keys': 'keys',
+                'Object.values': 'values',
+                'Object.entries': 'toPairs',
+                'Object.assign': 'assign',
+                'Object.create': 'create',
+                'Array.isArray': 'isArray',
+                'Array.from': 'toArray',
+                'Math.max': 'max',
+                'Math.min': 'min',
+                'Math.floor': 'floor',
+                'Math.ceil': 'ceil',
+                'Math.round': 'round'
+              }
+              
+              const fullMethodName = `${objectName}.${methodName}`
+              
+              if (staticMethodMapping[fullMethodName]) {
+                const lodashMethod = staticMethodMapping[fullMethodName]
+                
+                context.report({
+                  node: node.callee,
+                  messageId: 'useLodash',
+                  data: {
+                    nativeMethod: fullMethodName,
+                    lodashMethod: lodashMethod
+                  }
+                })
+              }
+            }
+          }
+        }
+      }
+    },
+
+    'asset-files-snake-case': {
+      meta: {
+        type: 'suggestion',
+        docs: {
+          description: 'Enforce snake_case naming for files in specified asset folders',
+          category: 'Stylistic Issues',
+          recommended: true
+        },
+        fixable: null,
+        schema: [
+          {
+            type: 'object',
+            properties: {
+              assetPaths: {
+                type: 'array',
+                items: {
+                  type: 'string'
+                },
+                default: []
+              }
+            },
+            additionalProperties: false
+          }
+        ]
+      },
+      create(context) {
+        const options = context.options[0] || {}
+        const assetPaths = options.assetPaths || []
+
+        // Helper function to check if a string is snake_case
+        function isSnakeCase(str) {
+          // Remove file extension
+          const nameWithoutExt = str.replace(/\.[^/.]+$/, '')
+          // Check if it's snake_case: lowercase letters, numbers, and underscores only
+          // Must start with a letter or number, not underscore
+          return /^[a-z0-9]+(_[a-z0-9]+)*$/.test(nameWithoutExt)
+        }
+
+        // Helper function to extract filename from path
+        function getFileName(filePath) {
+          const path = require('path')
+          return path.basename(filePath)
+        }
+
+        // Helper function to check if path matches any of the configured asset paths
+        function isAssetFile(filePath) {
+          if (assetPaths.length === 0) {
+            return false
+          }
+          
+          const normalizedPath = filePath.replace(/\\/g, '/')
+          
+          return assetPaths.some(assetPath => {
+            const normalizedAssetPath = assetPath.replace(/\\/g, '/')
+            // Check if the path includes the asset path
+            return normalizedPath.includes(normalizedAssetPath)
+          })
+        }
+
+        // Helper function to convert camelCase/PascalCase to snake_case
+        function toSnakeCase(str) {
+          return str
+            .replace(/([A-Z])/g, '_$1') // Convert camelCase to snake_case
+            .toLowerCase()
+            .replace(/^_+/, '') // Remove leading underscores
+            .replace(/-/g, '_') // Convert hyphens to underscores
+        }
+
+        function checkAssetFileName(node, filePath) {
+          if (!isAssetFile(filePath)) {
+            return
+          }
+
+          const fileName = getFileName(filePath)
+          
+          // Skip if already snake_case
+          if (isSnakeCase(fileName)) {
+            return
+          }
+
+          // Extract name without extension for better error message
+          const nameWithoutExt = fileName.replace(/\.[^/.]+$/, '')
+          const expectedName = toSnakeCase(nameWithoutExt)
+          const path = require('path')
+          const extension = path.extname(fileName)
+          const expectedFileName = expectedName + extension
+
+          context.report({
+            node,
+            message: `Asset file '${fileName}' should be in snake_case. Expected: '${expectedFileName}'`
+          })
+        }
+
+        return {
+          // Check require() statements
+          CallExpression(node) {
+            if (
+              node.callee &&
+              node.callee.type === 'Identifier' &&
+              node.callee.name === 'require' &&
+              node.arguments &&
+              node.arguments.length > 0 &&
+              node.arguments[0].type === 'Literal'
+            ) {
+              const filePath = node.arguments[0].value
+              if (typeof filePath === 'string') {
+                checkAssetFileName(node.arguments[0], filePath)
+              }
+            }
+          },
+
+          // Check import statements
+          ImportDeclaration(node) {
+            if (node.source && node.source.type === 'Literal') {
+              const filePath = node.source.value
+              if (typeof filePath === 'string') {
+                checkAssetFileName(node.source, filePath)
+              }
+            }
+          }
+        }
+      }
+    },
+    'prefer-typed-translation': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Enforce use of useTypedTranslation instead of useTranslation from react-i18next',
+          category: 'Best Practices',
+          recommended: true
+        },
+        fixable: null,
+        schema: []
+      },
+      create(context) {
+        // Get the current file path
+        const filename = context.getFilename()
+        
+        // Allow useTranslation import in the useTypedTranslation.ts file itself
+        const isTypedTranslationFile = filename.includes('useTypedTranslation.ts')
+        
+        return {
+          ImportDeclaration(node) {
+            // Skip if this is the useTypedTranslation.ts file itself
+            if (isTypedTranslationFile) {
+              return
+            }
+            
+            // Check if importing from 'react-i18next'
+            if (node.source && node.source.type === 'Literal' && node.source.value === 'react-i18next') {
+              // Check if useTranslation is being imported
+              const useTranslationImport = node.specifiers.find(
+                (spec) =>
+                  spec.type === 'ImportSpecifier' &&
+                  spec.imported &&
+                  spec.imported.name === 'useTranslation'
+              )
+
+              if (useTranslationImport) {
+                context.report({
+                  node: useTranslationImport,
+                  message:
+                    "Use 'useTypedTranslation' from '@/i18n' instead of 'useTranslation' from 'react-i18next' for type-safe translations. Replace: import { useTranslation } from 'react-i18next' with: import { useTypedTranslation } from '@/i18n'"
+                })
+              }
+            }
+          },
+          // Also check for usage of useTranslation hook
+          CallExpression(node) {
+            // Skip if this is the useTypedTranslation.ts file itself
+            if (isTypedTranslationFile) {
+              return
+            }
+            
+            if (
+              node.callee &&
+              node.callee.type === 'Identifier' &&
+              node.callee.name === 'useTranslation'
+            ) {
+              // Check if useTranslation is imported from react-i18next
+              const sourceCode = context.sourceCode || context.getSourceCode()
+              const ast = sourceCode.ast || sourceCode
+              
+              // Check imports in the file
+              if (ast && ast.body) {
+                const hasReactI18nextImport = ast.body.some(
+                  (stmt) =>
+                    stmt.type === 'ImportDeclaration' &&
+                    stmt.source &&
+                    stmt.source.value === 'react-i18next' &&
+                    stmt.specifiers.some(
+                      (spec) =>
+                        spec.type === 'ImportSpecifier' &&
+                        spec.imported &&
+                        spec.imported.name === 'useTranslation'
+                    )
+                )
+
+                if (hasReactI18nextImport) {
+                  context.report({
+                    node: node.callee,
+                    message:
+                      "Use 'useTypedTranslation()' from '@/i18n' instead of 'useTranslation()' from 'react-i18next' for type-safe translations"
+                  })
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    'no-duplicate-i18n-strings': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Detect duplicate string values in i18n locale JSON files',
+          category: 'Best Practices',
+          recommended: true
+        },
+        fixable: null,
+        schema: [
+          {
+            type: 'object',
+            properties: {
+              localePaths: {
+                type: 'array',
+                items: {
+                  type: 'string'
+                },
+                default: ['src/i18n/locales']
+              }
+            },
+            additionalProperties: false
+          }
+        ]
+      },
+      create(context) {
+        const fs = require('fs')
+        const options = context.options[0] || {}
+        const localePaths = options.localePaths || ['src/i18n/locales']
+
+        const filename = context.getFilename()
+        const isLocaleFile = localePaths.some(localePath => 
+          filename.includes(localePath) && filename.endsWith('.json')
+        )
+
+        if (!isLocaleFile) {
+          return {}
+        }
+
+        try {
+          const sourceCode = context.getSourceCode()
+          const fileContent = sourceCode.getText()
+          const jsonData = JSON.parse(fileContent)
+          const lines = fileContent.split('\n')
+          
+          // Map to store string values and their locations (case-insensitive key)
+          const stringsMap = new Map()
+          
+          // Function to recursively collect all string values with their paths
+          function collectStrings(obj, currentPath = '') {
+            if (typeof obj === 'string') {
+              const normalizedValue = obj.trim()
+              if (normalizedValue) {
+                // Use lowercase key for case-insensitive comparison
+                const caseInsensitiveKey = normalizedValue.toLowerCase()
+                if (!stringsMap.has(caseInsensitiveKey)) {
+                  stringsMap.set(caseInsensitiveKey, [])
+                }
+                stringsMap.get(caseInsensitiveKey).push({
+                  path: currentPath,
+                  originalValue: normalizedValue // Store original case
+                })
+              }
+            } else if (Array.isArray(obj)) {
+              obj.forEach((item, index) => {
+                collectStrings(item, `${currentPath}[${index}]`)
+              })
+            } else if (obj && typeof obj === 'object') {
+              Object.keys(obj).forEach(key => {
+                const newPath = currentPath ? `${currentPath}.${key}` : key
+                collectStrings(obj[key], newPath)
+              })
+            }
+          }
+
+          collectStrings(jsonData)
+          
+          // Find duplicates and report them with line numbers
+          stringsMap.forEach((locations, caseInsensitiveKey) => {
+            if (locations.length > 1) {
+              // Get all unique original values (with different cases)
+              const originalValues = [...new Set(locations.map(loc => loc.originalValue))]
+              const valuesDisplay = originalValues.length > 1 
+                ? originalValues.map(v => `"${v}"`).join(' / ')
+                : `"${originalValues[0]}"`
+              
+              // Find line numbers for each location
+              const locationLineNumbers = locations.map(location => {
+                const originalValue = location.originalValue
+                const escapedValue = originalValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+                
+                // Search for this exact value in the file
+                for (let i = 0; i < lines.length; i++) {
+                  const line = lines[i]
+                  // Match the exact value (case-sensitive) as a JSON string value
+                  const regex = new RegExp(`:\\s*"${escapedValue}"`, 'g')
+                  if (regex.test(line)) {
+                    return i + 1 // Line numbers are 1-indexed
+                  }
+                }
+                return null
+              })
+              
+              // Report error on each duplicate occurrence
+              locations.forEach((location, index) => {
+                const originalValue = location.originalValue
+                const otherPaths = locations
+                  .filter((_, i) => i !== index)
+                  .map(loc => `${loc.path} ("${loc.originalValue}")`)
+                  .join(', ')
+                
+                const lineNumber = locationLineNumbers[index] || (index + 1)
+                const line = lines[lineNumber - 1] || ''
+                // Find the actual value in the line (case-sensitive match)
+                const valueIndex = line.indexOf(`"${originalValue}"`)
+                const column = valueIndex >= 0 ? valueIndex : 0
+                
+                context.report({
+                  loc: {
+                    start: { line: lineNumber, column: column },
+                    end: { line: lineNumber, column: column + originalValue.length + 2 }
+                  },
+                  message: `Duplicate i18n string value (case-insensitive): ${valuesDisplay}. Also found at: ${otherPaths}. Consider using a common key instead.`
+                })
+              })
+            }
+          })
+        } catch (error) {
+          if (error instanceof SyntaxError) {
+            // JSON syntax errors will be caught by JSON parser
+            return {}
+          }
+          const sourceCode = context.getSourceCode()
+          context.report({
+            node: sourceCode.ast,
+            message: `Error validating i18n file: ${error.message}`
+          })
+        }
+
+        return {}
       }
     }
   }
@@ -1162,20 +1960,54 @@ function isStaticData(init, parent) {
     return true
   }
 
+  // Helper function to check if a value is static (recursive)
+  function isStaticValue(value) {
+    if (!value) return false
+    
+    // Literal values are static
+    if (value.type === 'Literal') return true
+    
+    // References to other variables (Identifiers) are considered static
+    // These are typically imported constants or module-level constants
+    if (value.type === 'Identifier') return true
+    
+    // MemberExpressions like Icons.overallIcon are considered static
+    // These are typically references to imported constant objects
+    if (value.type === 'MemberExpression') {
+      // Check if it's a property access on an Identifier (like Icons.something)
+      if (value.object && value.object.type === 'Identifier') {
+        return true
+      }
+      // Recursively check nested member expressions
+      return isStaticValue(value.object)
+    }
+    
+    // ObjectExpressions are static if all their properties are static
+    if (value.type === 'ObjectExpression') {
+      return value.properties.every((prop) => {
+        if (!prop.value) return false
+        return isStaticValue(prop.value)
+      })
+    }
+    
+    // ArrayExpressions are static if all elements are static
+    if (value.type === 'ArrayExpression') {
+      return value.elements.every((element) => element && isStaticValue(element))
+    }
+    
+    return false
+  }
+
   // Object/Array literals with only primitive values or static references are considered static
   if (init.type === 'ObjectExpression') {
     return init.properties.every((prop) => {
       if (!prop.value) return false
-      // Literal values are static
-      if (prop.value.type === 'Literal') return true
-      // References to other static variables (Identifiers) are also considered static
-      if (prop.value.type === 'Identifier') return true
-      return false
+      return isStaticValue(prop.value)
     })
   }
 
   if (init.type === 'ArrayExpression') {
-    return init.elements.every((element) => element && element.type === 'Literal')
+    return init.elements.every((element) => element && isStaticValue(element))
   }
 
   // Template literals with only static content
@@ -1183,14 +2015,20 @@ function isStaticData(init, parent) {
     return init.expressions.length === 0
   }
 
-  // Function calls, new expressions, and other dynamic operations are not static
+  // Function calls, new expressions are not static
   if (
     init.type === 'CallExpression' ||
-    init.type === 'NewExpression' ||
-    init.type === 'MemberExpression' ||
-    init.type === 'Identifier'
+    init.type === 'NewExpression'
   ) {
     return false
+  }
+
+  // MemberExpressions and Identifiers can be static if they reference constants
+  // This is handled by the recursive isStaticValue function above
+  if (init.type === 'MemberExpression' || init.type === 'Identifier') {
+    // For top-level, we consider these static if they're const declarations
+    // The recursive check in isStaticValue handles nested cases
+    return true
   }
 
   return false

@@ -11,7 +11,17 @@ type AppScrollViewProps = {
 const AppScrollView = (props: AppScrollViewProps) => {
   const {children} = props
 
-  return <KeyboardAwareScrollView {...props}>{children}</KeyboardAwareScrollView>
+  return (
+    <KeyboardAwareScrollView
+      {...props}
+      bounces={false}
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+    >
+      {children}
+    </KeyboardAwareScrollView>
+  )
 }
 
 export default AppScrollView

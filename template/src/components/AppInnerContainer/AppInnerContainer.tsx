@@ -1,21 +1,20 @@
 import {View} from 'react-native'
 
-import {useColor, useResponsiveHook} from '@/hooks'
-import type {RSType} from '@/hooks/useResponsiveHook'
-import type {ColorType} from '@/theme/Theme'
+import {useCommonHooks} from '@/hooks'
 
 import {myStyles} from './AppInnerContainer.styles'
 import type {AppInnerContainerProps} from './types/AppInnerContainer.types'
 
 const AppInnerContainer = (props: AppInnerContainerProps) => {
-  const colors: ColorType = useColor()
-  const RS: RSType = useResponsiveHook()
-
+  const {children, bgColor, style} = props
+  const {colors, RS} = useCommonHooks()
   const styles = myStyles(colors, RS)
 
-  const {children, style} = props
-
-  return <View style={[styles.innerContainer, style]}>{children}</View>
+  return (
+    <View style={[styles.container, {backgroundColor: bgColor ?? colors.white}, style]}>
+      {children}
+    </View>
+  )
 }
 
 export default AppInnerContainer
